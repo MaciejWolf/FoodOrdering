@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{32FE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Catalog.Tests", "FoodOrdering.Modules.Catalog.Tests\FoodOrdering.Modules.Catalog.Tests.csproj", "{454E9035-B0D5-4060-A622-0320BFF1E296}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Catalog.Core", "FoodOrdering.Modules.Catalog.Core\FoodOrdering.Modules.Catalog.Core.csproj", "{0C424A25-D296-41E2-8441-01176F784479}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{454E9035-B0D5-4060-A622-0320BFF1E296}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{454E9035-B0D5-4060-A622-0320BFF1E296}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{454E9035-B0D5-4060-A622-0320BFF1E296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C424A25-D296-41E2-8441-01176F784479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C424A25-D296-41E2-8441-01176F784479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C424A25-D296-41E2-8441-01176F784479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C424A25-D296-41E2-8441-01176F784479}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +36,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{32FE7D46-6CCE-4BC5-B51E-11C109707A14} = {59EA5574-BAF2-4BC2-91FA-1353C4DE1B4F}
 		{454E9035-B0D5-4060-A622-0320BFF1E296} = {32FE7D46-6CCE-4BC5-B51E-11C109707A14}
+		{0C424A25-D296-41E2-8441-01176F784479} = {32FE7D46-6CCE-4BC5-B51E-11C109707A14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17AAE88C-D02D-4FE1-8715-7BBC0D3C3613}

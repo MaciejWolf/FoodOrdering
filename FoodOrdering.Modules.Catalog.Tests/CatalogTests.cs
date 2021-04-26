@@ -1,3 +1,5 @@
+using FoodOrdering.Modules.Catalog.Core;
+using Shouldly;
 using Xunit;
 
 namespace FoodOrdering.Modules.Catalog.Tests
@@ -8,7 +10,7 @@ namespace FoodOrdering.Modules.Catalog.Tests
 
 		public CatalogTests()
 		{
-			CatalogService = new CatalogService();
+			Sut = new CatalogService();
 		}
 
 		[Fact]
@@ -29,6 +31,8 @@ namespace FoodOrdering.Modules.Catalog.Tests
 			var restaurant = Sut.GetRestaurant(restaurantId);
 
 			restaurant.Name.ShouldBe("PL");
+			restaurant.RegionId.ShouldBe(regionId);
+			restaurant.IsActive.ShouldBeFalse();
 		}
 
 		[Fact]
@@ -40,6 +44,8 @@ namespace FoodOrdering.Modules.Catalog.Tests
 			var offer = Sut.GetOffer(offerId);
 
 			offer.Name.ShouldBe("RegularOffer");
+			offer.RegionId.ShouldBe(regionId);
+			offer.IsActive.ShouldBeFalse();
 		}
 
 		[Fact]
@@ -52,6 +58,7 @@ namespace FoodOrdering.Modules.Catalog.Tests
 			var meal = Sut.GetMeal(mealId);
 
 			meal.Name.ShouldBe("Hamburger");
+			meal.OfferId.ShouldBe(offerId);
 		}
 
 		[Fact]
@@ -60,11 +67,11 @@ namespace FoodOrdering.Modules.Catalog.Tests
 			var regionId = Sut.CreateRegion("PL");
 			var offerId = Sut.CreateOffer("RegularOffer", regionId);
 
-			var error = Sut.ActivateOffer(offerId);
+			var success = Sut.ActivateOffer(offerId);
 			var offer = Sut.GetOffer(offerId);
 
-			error.Failure.HasValue.ShouldBe(false);
-			offer.IsActive.ShouldBe(true);
+			success.ShouldBeTrue();
+			offer.IsActive.ShouldBeTrue();
 		}
 
 		[Fact]
@@ -73,10 +80,10 @@ namespace FoodOrdering.Modules.Catalog.Tests
 			var regionId = Sut.CreateRegion("PL");
 			var offerId = Sut.CreateOffer("RegularOffer", regionId);
 
-			var error = Sut.ActivateOffer(offerId);
+			var success = Sut.ActivateOffer(offerId);
 
 			var offer = Sut.GetOffer(offerId);
-			error.Failure.HasValue.ShouldBe(true);
+			success.ShouldBeFalse();
 			offer.IsActive.ShouldBe(false);
 		}
 
@@ -84,26 +91,26 @@ namespace FoodOrdering.Modules.Catalog.Tests
 		public void CanActivateRestaurantWithAtLeastOneActiveOffer()
 		{
 			var regionId = Sut.CreateRegion("PL");
-			var restaurantId = Sut.CreateRestaurant("XX");
+			var restaurantId = Sut.CreateRestaurant("XX", regionId);
 
-			var error = Sut.ActivateRestaurant(restaurantId);
+			var success = Sut.ActivateRestaurant(restaurantId);
 			var restaurant = Sut.GetRestaurant(restaurantId);
 
-			error.Failure.HasValue.ShouldBe(false);
-			restaurant.IsActive.ShouldBe(false);
+			success.ShouldBeTrue();
+			restaurant.IsActive.ShouldBe(true);
 		}
 
 		[Fact]
 		public void CannotActivateRestaurantWithoutActiveOffer()
 		{
 			var regionId = Sut.CreateRegion("PL");
-			var restaurantId = Sut.CreateRestaurant("XX");
+			var restaurantId = Sut.CreateRestaurant("XX", regionId);
 
-			var error = Sut.ActivateRestaurant(restaurantId);
+			var success = Sut.ActivateRestaurant(restaurantId);
 			var restaurant = Sut.GetRestaurant(restaurantId);
 
-			error.Failure.HasValue.ShouldBe(true);
-			restaurant.IsActive.ShouldBe(true);
+			success.ShouldBeFalse();
+			restaurant.IsActive.ShouldBe(false);
 		}
 	}
 }
