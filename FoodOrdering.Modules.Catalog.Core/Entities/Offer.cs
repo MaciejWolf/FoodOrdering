@@ -10,7 +10,7 @@ namespace FoodOrdering.Modules.Catalog.Core.Entities
 		public Guid RegionId { get; set; }
 		public bool IsActive { get; set; }
 
-		public List<Guid> Meals { get; set; }
+		public List<Guid> Meals { get; set; } = new();
 
 		public void AddMeal(Guid mealId)
 		{

@@ -40,7 +40,7 @@ namespace FoodOrdering.Modules.Catalog.Core
 		public RestaurantDTO GetRestaurant(Guid restaurantId)
 		{
 			var restaurant = restaurants.Single(res => res.Id == restaurantId);
-			return new RestaurantDTO(restaurant.Id, restaurant.Name, restaurant.RegionId, restaurant.IsActive);
+			return new RestaurantDTO(restaurant.Id, restaurant.Name, restaurant.RegionId, restaurant.IsActive, restaurant.Offers.ToArray());
 		}
 
 		public Guid AddMeal(Guid offerId, string name)
@@ -49,6 +49,7 @@ namespace FoodOrdering.Modules.Catalog.Core
 			var offer = offers.Single(o => o.Id == offerId);
 
 			offer.AddMeal(meal.Id);
+			meals.Add(meal);
 
 			return meal.Id;
 		}
@@ -86,6 +87,20 @@ namespace FoodOrdering.Modules.Catalog.Core
 		{
 			var offer = offers.Single(o => o.Id == offerId);
 			return new OfferDTO(offer.Id, offer.Name, offer.RegionId, offer.IsActive);
+		}
+
+		public bool AddOfferToRestaurant(Guid offerId, Guid restaurantId)
+		{
+			var offer = offers.Single(o => o.Id == offerId);
+			var restaurant = restaurants.Single(r => r.Id == restaurantId);
+
+			if (offer.RegionId != restaurant.RegionId)
+			{
+				return false;
+			}
+
+			restaurant.AddOffer(offer.Id);
+			return true;
 		}
 
 		public bool ActivateRestaurant(Guid restaurantId)

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace FoodOrdering.Modules.Catalog.Core.DTO
 {
-	public record RestaurantDTO(Guid Id, string Name, Guid RegionId, bool IsActive);
+	public record RestaurantDTO(Guid Id, string Name, Guid RegionId, bool IsActive, Guid[] Offers);
 }
