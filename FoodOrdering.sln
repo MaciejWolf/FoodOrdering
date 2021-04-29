@@ -13,11 +13,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{32FE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Catalog.Core", "FoodOrdering.Modules.Catalog.Core\FoodOrdering.Modules.Catalog.Core.csproj", "{0C424A25-D296-41E2-8441-01176F784479}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Catalog.Tests", "FoodOrdering.Modules.Catalog.Tests\FoodOrdering.Modules.Catalog.Tests.csproj", "{6191663C-9F9D-49AC-8752-25A2E85F2D28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Catalog.Tests", "FoodOrdering.Modules.Catalog.Tests\FoodOrdering.Modules.Catalog.Tests.csproj", "{6191663C-9F9D-49AC-8752-25A2E85F2D28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Common", "FoodOrdering.Common\FoodOrdering.Common.csproj", "{9792227A-0083-4F63-A6F5-830903182B98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Common", "FoodOrdering.Common\FoodOrdering.Common.csproj", "{9792227A-0083-4F63-A6F5-830903182B98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Common.Tests", "FoodOrdering.Common.Tests\FoodOrdering.Common.Tests.csproj", "{9E3548D6-79CC-4CAE-9669-3E58213BC9E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Common.Tests", "FoodOrdering.Common.Tests\FoodOrdering.Common.Tests.csproj", "{9E3548D6-79CC-4CAE-9669-3E58213BC9E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Discounts", "Discounts", "{ED578C95-3805-49D7-8B3A-E5BF4D5853C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Coupons", "Coupons", "{589A231A-B443-48DC-8A4E-32C81BF96761}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Coupons.Core", "FoodOrdering.Modules.Coupons.Core\FoodOrdering.Modules.Coupons.Core.csproj", "{1E7C90A2-1E1B-4A1D-B258-1C839562F6A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Discounts.Core", "FoodOrdering.Modules.Discounts.Core\FoodOrdering.Modules.Discounts.Core.csproj", "{C8745A8E-CCC8-4DF4-AC63-BAEE12C3864B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Coupons.Tests", "FoodOrdering.Modules.Coupons.Tests\FoodOrdering.Modules.Coupons.Tests.csproj", "{B35C1255-9D0C-4624-B854-7C86BAE0300B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Discounts.Tests", "FoodOrdering.Modules.Discounts.Tests\FoodOrdering.Modules.Discounts.Tests.csproj", "{863BC232-853E-48F2-BD63-0A342F4FEA53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +53,22 @@ Global
 		{9E3548D6-79CC-4CAE-9669-3E58213BC9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E3548D6-79CC-4CAE-9669-3E58213BC9E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E3548D6-79CC-4CAE-9669-3E58213BC9E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E7C90A2-1E1B-4A1D-B258-1C839562F6A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E7C90A2-1E1B-4A1D-B258-1C839562F6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E7C90A2-1E1B-4A1D-B258-1C839562F6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E7C90A2-1E1B-4A1D-B258-1C839562F6A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8745A8E-CCC8-4DF4-AC63-BAEE12C3864B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8745A8E-CCC8-4DF4-AC63-BAEE12C3864B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8745A8E-CCC8-4DF4-AC63-BAEE12C3864B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8745A8E-CCC8-4DF4-AC63-BAEE12C3864B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B35C1255-9D0C-4624-B854-7C86BAE0300B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B35C1255-9D0C-4624-B854-7C86BAE0300B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B35C1255-9D0C-4624-B854-7C86BAE0300B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B35C1255-9D0C-4624-B854-7C86BAE0300B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863BC232-853E-48F2-BD63-0A342F4FEA53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863BC232-853E-48F2-BD63-0A342F4FEA53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863BC232-853E-48F2-BD63-0A342F4FEA53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863BC232-853E-48F2-BD63-0A342F4FEA53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +79,12 @@ Global
 		{6191663C-9F9D-49AC-8752-25A2E85F2D28} = {32FE7D46-6CCE-4BC5-B51E-11C109707A14}
 		{9792227A-0083-4F63-A6F5-830903182B98} = {200F106B-9E31-4037-91D2-DE3C9BE88417}
 		{9E3548D6-79CC-4CAE-9669-3E58213BC9E4} = {200F106B-9E31-4037-91D2-DE3C9BE88417}
+		{ED578C95-3805-49D7-8B3A-E5BF4D5853C3} = {59EA5574-BAF2-4BC2-91FA-1353C4DE1B4F}
+		{589A231A-B443-48DC-8A4E-32C81BF96761} = {59EA5574-BAF2-4BC2-91FA-1353C4DE1B4F}
+		{1E7C90A2-1E1B-4A1D-B258-1C839562F6A8} = {589A231A-B443-48DC-8A4E-32C81BF96761}
+		{C8745A8E-CCC8-4DF4-AC63-BAEE12C3864B} = {ED578C95-3805-49D7-8B3A-E5BF4D5853C3}
+		{B35C1255-9D0C-4624-B854-7C86BAE0300B} = {589A231A-B443-48DC-8A4E-32C81BF96761}
+		{863BC232-853E-48F2-BD63-0A342F4FEA53} = {ED578C95-3805-49D7-8B3A-E5BF4D5853C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17AAE88C-D02D-4FE1-8715-7BBC0D3C3613}
