@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FoodOrdering.Common\FoodOrdering.Common.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Basket.Core\FoodOrdering.Modules.Basket.Core.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Coupons.Core\FoodOrdering.Modules.Coupons.Core.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Discounts.Core\FoodOrdering.Modules.Discounts.Core.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Users.Core\FoodOrdering.Modules.Users.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
+</Project>

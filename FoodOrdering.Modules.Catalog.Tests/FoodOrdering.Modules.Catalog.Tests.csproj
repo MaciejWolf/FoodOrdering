@@ -20,8 +20,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FoodOrdering.Modules.Catalog.Core\FoodOrdering.Modules.Catalog.Core.csproj" />
-  </ItemGroup>
-
 </Project>
