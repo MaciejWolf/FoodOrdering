@@ -21,8 +21,8 @@ namespace FoodOrdering.Modules.Auth
             services.AddIdentityServices(config);
             services.AddDbContext<AppIdentityDbContext>(x =>
             {
-				x.UseInMemoryDatabase("InMemoryIdentityDatabase");
-				//x.UseNpgsql(config.GetConnectionString("IdentityConnection"));
+				//x.UseInMemoryDatabase("InMemoryIdentityDatabase");
+				x.UseNpgsql(config.GetConnectionString("IdentityConnection"));
 			});
 			return services;
 		}

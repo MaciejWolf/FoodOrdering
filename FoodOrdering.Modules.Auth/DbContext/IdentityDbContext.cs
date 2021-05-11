@@ -12,7 +12,7 @@ namespace FoodOrdering.Modules.Auth.DbContext
 {
 	class AppIdentityDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
 	{
-        public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : base(options)
+        public AppIdentityDbContext(DbContextOptions options) : base(options)
         {
         }
 
