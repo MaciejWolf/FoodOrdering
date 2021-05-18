@@ -25,7 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FoodOrdering.Common.TestUtilities\FoodOrdering.Common.TestUtilities.csproj" />
     <ProjectReference Include="..\FoodOrdering.Common\FoodOrdering.Common.csproj" />
-    <ProjectReference Include="..\FoodOrdering.Modules.Coupons.Core\FoodOrdering.Modules.Coupons.Core.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Coupons.Core\FoodOrdering.Modules.Coupons.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using FoodOrdering.Common.Functional;
 using FoodOrdering.Modules.Auth.Contracts.DTO;
+using FoodOrdering.Modules.Auth.Contracts.Events;
 using FoodOrdering.Modules.Auth.Entities;
 using FoodOrdering.Modules.Auth.Helpers;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace FoodOrdering.Modules.Auth.Services
@@ -13,12 +15,14 @@ namespace FoodOrdering.Modules.Auth.Services
 		private readonly UserManager<AppUser> userManager;
 		private readonly SignInManager<AppUser> signInManager;
 		private readonly ITokenFactory tokenFactory;
+		private readonly IPublisher publisher;
 
-		public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenFactory tokenFactory)
+		public AuthService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenFactory tokenFactory, IPublisher publisher)
 		{
 			this.userManager = userManager;
 			this.signInManager = signInManager;
 			this.tokenFactory = tokenFactory;
+			this.publisher = publisher;
 		}
 
 		public async Task<bool> IsEmailTaken(string email)
@@ -86,6 +90,8 @@ namespace FoodOrdering.Modules.Auth.Services
 				//return BadRequest();
 				return new Error("Creating user failed").AsOption();
 			}
+
+			await publisher.Publish(new UserRegisteredEvent(user.Id));
 
 			return Option<Error>.None();
 		}

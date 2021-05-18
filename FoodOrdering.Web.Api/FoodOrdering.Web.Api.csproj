@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoodOrdering.Modules.Auth\FoodOrdering.Modules.Auth.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Basket.Messages\FoodOrdering.Modules.Basket.Contracts.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Users.Core\FoodOrdering.Modules.Users.Contracts.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Users\FoodOrdering.Modules.Users.csproj" />
   </ItemGroup>

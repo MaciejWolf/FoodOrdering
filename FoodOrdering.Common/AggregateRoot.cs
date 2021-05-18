@@ -7,7 +7,7 @@ using MediatR;
 
 namespace FoodOrdering.Common
 {
-	public abstract class AggregateRoot<T>
+	public abstract class AggregateRoot<T> : IEntity<T>
 	{
 		private readonly List<INotification> events = new();
 		private bool versionIncremented;

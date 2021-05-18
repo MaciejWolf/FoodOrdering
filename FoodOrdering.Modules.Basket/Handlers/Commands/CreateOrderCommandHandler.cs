@@ -12,31 +12,39 @@ using MediatR;
 
 namespace FoodOrdering.Modules.Basket.Handlers.Commands
 {
-	public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
+	class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
 	{
 		private readonly IBasketsRepository basketsRepository;
 		private readonly IOrdersRepository ordersRepository;
 		private readonly IClock clock;
 
-		public async Task<Guid> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+		public CreateOrderCommandHandler(IBasketsRepository basketsRepository, IOrdersRepository ordersRepository, IClock clock)
 		{
-			var basket = basketsRepository.GetById(request.BasketId);
+			this.basketsRepository = basketsRepository;
+			this.ordersRepository = ordersRepository;
+			this.clock = clock;
+		}
+
+		public async Task<Guid> Handle(CreateOrderCommand cmd, CancellationToken cancellationToken)
+		{
+			var basket = basketsRepository.GetById(cmd.BasketId);
 
 			var order = new Order
 			{
 				Id = Guid.NewGuid(),
-				UserId = request.BasketId,
+				ClientId = cmd.BasketId,
 				OrderItems = basket.BasketItems.Select(bi => new OrderItem
 				{
-					Id = bi.ProductId,
-					//Price = bi.Price,
-					//BasePrice = bi.BasePrice	
-				}).ToList()
+					ProductId = bi.ProductId,
+					Price = bi.Price.ToDecimal(),
+					Quantity = bi.Quantity.ToInt()
+				}).ToList(),
+				UsedCoupons = basket.AppliedCouponsIds.Select(id => id.ToGuid()).ToList()
 			};
 
 			await ordersRepository.Save(order);
 
-			return order.Id;
+			return order.Id.ToGuid();
 		}
 	}
 }

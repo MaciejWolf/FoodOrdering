@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FoodOrdering.Modules.OrderProcessing.Contracts\FoodOrdering.Modules.OrderProcessing.Contracts.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Surveys.Contracts\FoodOrdering.Modules.Surveys.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

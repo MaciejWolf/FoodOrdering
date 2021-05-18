@@ -2,8 +2,5 @@
 
 namespace FoodOrdering.Modules.Basket.Messages.DTO
 {
-	public class CouponDTO
-	{
-		public Guid Id { get; set; }
-	}
+	public record CouponDTO(Guid Id, Guid ProductId, int PercentageDiscount, DateTime ValidTo);
 }
