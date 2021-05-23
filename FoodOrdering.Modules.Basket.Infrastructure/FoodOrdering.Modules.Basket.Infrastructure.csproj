@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Basket.Application\FoodOrdering.Modules.Basket.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,7 @@ using FoodOrdering.Modules.Auth.Services;
 using FoodOrdering.Modules.Basket.Contracts.Commands;
 using FoodOrdering.Modules.Basket.Contracts.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace FoodOrdering.Web.Api.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class BasketController : ControllerBase
 	{
 		private readonly ISender sender;
@@ -47,8 +49,36 @@ namespace FoodOrdering.Web.Api.Controllers
 		{
 			var userId = GetUserId();
 
-			await sender.Send(new ChangeItemsQuantityCommand(userId, itemId, quantity));
+			await sender.Send(new UpdateProductInBasketCommand(userId, itemId, quantity));
 			return NoContent();
+		}
+
+		[HttpPost("applycoupon")]
+		public async Task<IActionResult> ApplyCoupon(Guid couponId)
+		{
+			var userId = GetUserId();
+
+			await sender.Send(new ApplyCouponCommand(couponId, userId));
+
+			return NoContent();
+		}
+
+		[HttpPost("createorder")]
+		public async Task<IActionResult> CreateOrder()
+		{
+			var userId = GetUserId();
+
+			var orderId = await sender.Send(new CreateOrderCommand(userId));
+
+			return Ok(orderId);
+		}
+
+		[HttpPost("placeorder")]
+		public async Task<IActionResult> PlaceOrder(Guid orderId)
+		{
+			await sender.Send(new PlaceOrderCommand(orderId));
+
+			return Ok();
 		}
 	}
 }

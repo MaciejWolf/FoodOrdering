@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FoodOrdering.Common;
 using FoodOrdering.Modules.Surveys.Contracts.Commands;
 using FoodOrdering.Modules.Surveys.Contracts.Events;
 using FoodOrdering.Modules.Surveys.Entities;
@@ -12,7 +13,7 @@ using MediatR;
 
 namespace FoodOrdering.Modules.Surveys.Handlers.Commands
 {
-	class CompleteSurveyCommandHandler : IRequestHandler<CompleteSurveyCommand>
+	public class CompleteSurveyCommandHandler : IRequestHandler<CompleteSurveyCommand>
 	{
 		private readonly ISurveyRepository surveyRepository;
 		private readonly IPublisher publisher;
@@ -29,19 +30,19 @@ namespace FoodOrdering.Modules.Surveys.Handlers.Commands
 
 			if (survey.Status != SurveyStatus.Open)
 			{
-				throw new Exception();
+				throw new AppException();
 			}
 
 			var answers = request.Answers.Select(a => new Answer
 			{
-				SurveyId = survey.Id,
+				//SurveyId = survey.Id,
 				QuestionId = a.QuestionId,
 				Content = a.Content
 			});
 
 			if (!survey.CanBeCompleted(answers))
 			{
-				throw new Exception();
+				throw new AppException();
 			}
 
 			survey.Status = SurveyStatus.Completed;

@@ -12,7 +12,7 @@ using MediatR;
 
 namespace FoodOrdering.Modules.Catalog.Handlers.Queries
 {
-	class GetAllMealsQueryHandler : IRequestHandler<GetAllMealsQuery, IReadOnlyCollection<MealDTO>>
+	public class GetAllMealsQueryHandler : IRequestHandler<GetAllMealsQuery, IReadOnlyCollection<MealDTO>>
 	{
 		private readonly IMealsRepository mealsRepository;
 

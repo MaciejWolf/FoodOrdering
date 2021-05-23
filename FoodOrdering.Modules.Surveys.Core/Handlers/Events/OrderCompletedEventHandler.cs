@@ -5,19 +5,22 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FoodOrdering.Modules.OrderProcessing.Contracts.Events;
+using FoodOrdering.Modules.Surveys.Contracts.Events;
 using FoodOrdering.Modules.Surveys.Entities;
 using FoodOrdering.Modules.Surveys.Repositories;
 using MediatR;
 
 namespace FoodOrdering.Modules.Surveys.Handlers.Events
 {
-	class OrderCompletedEventHandler : INotificationHandler<OrderCompletedEvent>
+	public class OrderCompletedEventHandler : INotificationHandler<OrderCompletedEvent>
 	{
 		private readonly ISurveyRepository surveyRepository;
+		private readonly IPublisher publisher;
 
-		public OrderCompletedEventHandler(ISurveyRepository surveyRepository)
+		public OrderCompletedEventHandler(ISurveyRepository surveyRepository, IPublisher publisher)
 		{
 			this.surveyRepository = surveyRepository;
+			this.publisher = publisher;
 		}
 
 		public async Task Handle(OrderCompletedEvent notification, CancellationToken cancellationToken)
@@ -25,9 +28,11 @@ namespace FoodOrdering.Modules.Surveys.Handlers.Events
 			var survey = SurveyTemplate.OpenSurvey(Guid.NewGuid(), notification.ClientId);
 
 			surveyRepository.Save(survey);
+
+			await publisher.Publish(new SurveyGeneratedEvent(survey.Id));
 		}
 
-		private static SurveyTemplate SurveyTemplate => new SurveyTemplate
+		private static SurveyTemplate SurveyTemplate => new()
 		{
 			Questions = new[]
 				{

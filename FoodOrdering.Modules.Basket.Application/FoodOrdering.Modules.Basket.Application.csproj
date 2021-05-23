@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,18 +6,16 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FoodOrdering.Common\FoodOrdering.Common.csproj" />
-    <ProjectReference Include="..\FoodOrdering.Modules.Basket.Core\FoodOrdering.Modules.Basket.Core.csproj" />
-    <ProjectReference Include="..\FoodOrdering.Modules.Coupons.Core\FoodOrdering.Modules.Coupons.Core.csproj" />
-    <ProjectReference Include="..\FoodOrdering.Modules.Discounts.Core\FoodOrdering.Modules.Discounts.Core.csproj" />
-    <ProjectReference Include="..\FoodOrdering.Modules.Users.Core\FoodOrdering.Modules.Users.Contracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Queries\" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Auth.Contracts\FoodOrdering.Modules.Auth.Contracts.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Basket.Domain\FoodOrdering.Modules.Basket.Domain.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Basket.Messages\FoodOrdering.Modules.Basket.Contracts.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Catalog.Contracts\FoodOrdering.Modules.Catalog.Contracts.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Coupons.Messages\FoodOrdering.Modules.Coupons.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

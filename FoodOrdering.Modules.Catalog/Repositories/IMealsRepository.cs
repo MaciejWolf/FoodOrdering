@@ -7,7 +7,7 @@ using FoodOrdering.Modules.Catalog.Models;
 
 namespace FoodOrdering.Modules.Catalog.Repositories
 {
-	interface IMealsRepository
+	public interface IMealsRepository
 	{
 		Task AddAsync(Meal meal);
 		Task<Meal> GetById(Guid id);

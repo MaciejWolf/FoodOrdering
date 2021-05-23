@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FoodOrdering.Modules.Basket.Domain.Entities;
+using FoodOrdering.Modules.Basket.Domain.Basket;
 using FoodOrdering.Modules.Basket.Domain.Repositories;
 
 namespace FoodOrdering.Modules.Basket.Infrastructure.Repositories

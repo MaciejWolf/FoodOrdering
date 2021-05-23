@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace FoodOrdering.Modules.Surveys.Entities
 {
-	class Survey
+	public class Survey
 	{
 		public Guid Id { get; set; }
 		public Guid ClientId { get; set; }
@@ -14,8 +14,8 @@ namespace FoodOrdering.Modules.Surveys.Entities
 
 		public bool CanBeCompleted(IEnumerable<Answer> answers)
 		{
-			if (!answers.All(a => a.SurveyId == Id))
-				return false;
+			//if (!answers.All(a => a.SurveyId == Id))
+			//	return false;
 
 			if (!AreQuestionIdsValid(answers.Select(a => a.QuestionId)))
 				return false;
@@ -32,7 +32,7 @@ namespace FoodOrdering.Modules.Surveys.Entities
 		private bool AreQuestionIdsValid(IEnumerable<int> ids) => Questions.Select(q => q.Id).SequenceEqual(ids);
 	}
 
-	enum SurveyStatus
+	public enum SurveyStatus
 	{
 		Open,
 		Completed

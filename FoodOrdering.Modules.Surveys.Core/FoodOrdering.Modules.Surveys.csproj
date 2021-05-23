@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FoodOrdering.Common\FoodOrdering.Common.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.OrderProcessing.Contracts\FoodOrdering.Modules.OrderProcessing.Contracts.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Surveys.Contracts\FoodOrdering.Modules.Surveys.Contracts.csproj" />
   </ItemGroup>

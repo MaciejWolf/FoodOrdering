@@ -13,7 +13,7 @@ using MediatR;
 
 namespace FoodOrdering.Modules.OrderProcessing.Handlers.Commands
 {
-	class CompleteOrderCommandHandler : IRequestHandler<CompleteOrderCommand>
+	public class CompleteOrderCommandHandler : IRequestHandler<CompleteOrderCommand>
 	{
 		private readonly IOrdersRepository ordersRepository;
 		private readonly IPublisher publisher;
@@ -27,7 +27,7 @@ namespace FoodOrdering.Modules.OrderProcessing.Handlers.Commands
 		public async Task<Unit> Handle(CompleteOrderCommand request, CancellationToken cancellationToken)
 		{
 			var order = ordersRepository.GetById(request.OrderId);
-			if (order.Status != OrderStatus.InPreparation)
+			if (order.Status != OrderStatus.Placed)
 			{
 				throw new AppException();
 			}

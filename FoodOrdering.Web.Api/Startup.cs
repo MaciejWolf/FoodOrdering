@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 using FoodOrdering.Common;
 using FoodOrdering.Common.Time;
 using FoodOrdering.Modules.Auth;
+using FoodOrdering.Modules.Basket.Infrastructure;
+using FoodOrdering.Modules.Catalog;
+using FoodOrdering.Modules.OrderProcessing;
+using FoodOrdering.Modules.Surveys;
 using FoodOrdering.Modules.Users;
 using FoodOrdering.Web.Api.Auth;
 using FoodOrdering.Web.Api.Contexts;
@@ -39,9 +43,7 @@ namespace FoodOrdering.Web.Api
 
 			services.AddCommons();
 
-			//services.AddAuth();
-			//services.AddUsersModule();
-			services.AddAuthModule(Configuration);
+			services.AddModules(Configuration);
 
 			services.AddSingleton<IContextFactory, ContextFactory>();
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

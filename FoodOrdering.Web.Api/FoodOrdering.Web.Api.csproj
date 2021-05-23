@@ -14,7 +14,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoodOrdering.Modules.Auth\FoodOrdering.Modules.Auth.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Basket.Infrastructure\FoodOrdering.Modules.Basket.Infrastructure.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Basket.Messages\FoodOrdering.Modules.Basket.Contracts.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Catalog\FoodOrdering.Modules.Catalog.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Coupons.Core\FoodOrdering.Modules.Coupons.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.OrderProcessing\FoodOrdering.Modules.OrderProcessing.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Surveys.Core\FoodOrdering.Modules.Surveys.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Users.Core\FoodOrdering.Modules.Users.Contracts.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Users\FoodOrdering.Modules.Users.csproj" />
   </ItemGroup>

@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FoodOrdering.Common\FoodOrdering.Common.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Auth.Contracts\FoodOrdering.Modules.Auth.Contracts.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Basket.Messages\FoodOrdering.Modules.Basket.Contracts.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Coupons.Messages\FoodOrdering.Modules.Coupons.Contracts.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Surveys.Contracts\FoodOrdering.Modules.Surveys.Contracts.csproj" />

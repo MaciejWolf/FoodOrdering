@@ -23,6 +23,7 @@ namespace FoodOrdering.Modules.Surveys.Entities
 			{
 				Id = id,
 				ClientId = clientId,
+				Status = SurveyStatus.Open,
 				Questions = Questions.Select(q => new Entities.Question
 				{
 					Id = q.Id,

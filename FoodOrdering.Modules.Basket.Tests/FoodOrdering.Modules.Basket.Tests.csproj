@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FoodOrdering.Modules.Basket\FoodOrdering.Modules.Basket.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Commands\" />
   </ItemGroup>
 

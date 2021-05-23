@@ -12,7 +12,7 @@ using MediatR;
 
 namespace FoodOrdering.Modules.Catalog.Handlers.Commands
 {
-	class CreateMealCommandHandler : IRequestHandler<CreateMealCommand, Guid>
+	public class CreateMealCommandHandler : IRequestHandler<CreateMealCommand, Guid>
 	{
 		private readonly IMealsRepository mealsRepository;
 		private readonly IPublisher publisher;

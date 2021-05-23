@@ -10,5 +10,7 @@ namespace FoodOrdering.Modules.Basket.Contracts.DTO
 	public record BasketDTO(
 		IEnumerable<BasketItemDTO> BasketItems, 
 		decimal TotalPrice, 
-		IEnumerable<Guid> AppliedDiscounts);
+		Guid? AppliedCoupon);
+
+	public record BasketItemDTO(Guid Id, int Quantity);
 }

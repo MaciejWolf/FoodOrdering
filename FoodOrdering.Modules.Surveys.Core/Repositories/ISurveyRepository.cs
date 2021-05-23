@@ -7,9 +7,10 @@ using FoodOrdering.Modules.Surveys.Entities;
 
 namespace FoodOrdering.Modules.Surveys.Repositories
 {
-	interface ISurveyRepository
+	public interface ISurveyRepository
 	{
 		public void Save(Survey survey);
 		Survey GetById(Guid surveyId);
+		IEnumerable<Survey> GetForClient(Guid clientId);
 	}
 }

@@ -11,7 +11,7 @@ using MediatR;
 
 namespace FoodOrdering.Modules.Catalog.Handlers.Commands
 {
-	class ChangeMealsPriceCommandHandler : IRequestHandler<ChangeMealsPriceCommand>
+	public class ChangeMealsPriceCommandHandler : IRequestHandler<ChangeMealsPriceCommand>
 	{
 		private readonly IMealsRepository repo;
 		private readonly IPublisher publisher;

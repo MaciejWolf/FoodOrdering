@@ -7,7 +7,7 @@ using FoodOrdering.Modules.OrderProcessing.Entities;
 
 namespace FoodOrdering.Modules.OrderProcessing.Repositories
 {
-	interface IOrdersRepository
+	public interface IOrdersRepository
 	{
 		void Save(Order order);
 		Order GetById(Guid orderId);

@@ -6,7 +6,7 @@ using FoodOrdering.Modules.Catalog.Models;
 
 namespace FoodOrdering.Modules.Catalog.Repositories
 {
-	class InMemoryMealsRepository : IMealsRepository
+	public class InMemoryMealsRepository : IMealsRepository
 	{
 		private readonly List<Meal> meals = new();
 
@@ -15,9 +15,9 @@ namespace FoodOrdering.Modules.Catalog.Repositories
 			meals.Add(meal);
 		}
 
-		public Task<Meal[]> GetAll()
+		public async Task<Meal[]> GetAll()
 		{
-			throw new NotImplementedException();
+			return meals.ToArray();
 		}
 
 		public async Task<Meal> GetById(Guid id) => meals.SingleOrDefault(m => m.Id == id);

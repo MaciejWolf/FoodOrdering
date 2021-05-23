@@ -40,13 +40,22 @@ namespace FoodOrdering.Web.Api.Controllers
 			return Ok(order);
 		}
 
-		[HttpPost]
+		[HttpPost("createorder")]
 		public async Task<IActionResult> CreateOrder()
 		{
-			var id = GetUserId();
-			var orderId = await sender.Send(new CreateOrderCommand(id));
+			var userId = GetUserId();
+
+			var orderId = await sender.Send(new CreateOrderCommand(userId));
 
 			return Ok(orderId);
+		}
+
+		[HttpPost("placeorder")]
+		public async Task<IActionResult> PlaceOrder(Guid orderId)
+		{
+			await sender.Send(new PlaceOrderCommand(orderId));
+
+			return Ok();
 		}
 	}
 }
