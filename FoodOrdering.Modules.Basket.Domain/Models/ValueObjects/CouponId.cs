@@ -9,15 +9,20 @@ namespace FoodOrdering.Modules.Basket.Domain.ValueObjects
 {
 	public record CouponId : IValueObject
 	{
-		private readonly Guid value;
+		public Guid Value { get; private set; }
 
 		public CouponId(Guid value)
 		{
-			this.value = value;
+			Value = value;
 		}
 
 		public static implicit operator CouponId(Guid guid) => new(guid);
+		public static implicit operator Guid(CouponId couponId) => couponId.Value;
 
-		public Guid ToGuid() => value;
+		public Guid ToGuid() => Value;
+
+		public override string ToString() => Value.ToString();
+
+		protected CouponId() { }
 	}
 }

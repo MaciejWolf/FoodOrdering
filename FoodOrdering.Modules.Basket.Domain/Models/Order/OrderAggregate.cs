@@ -11,36 +11,18 @@ namespace FoodOrdering.Modules.Basket.Domain.Models.Order
 {
 	public class OrderAggregate : AggregateRoot<OrderId>
 	{
-		private readonly ClientId clientId;
-		private readonly DateTime createdAt;
-		private readonly DateTime validTo;
+		public DateTime ValidTo { get; private set; }
+		public ClientId ClientId { get; private set; }
 
-		private readonly List<OrderProduct> products;
-		private readonly CouponId usedCoupon;
-
-		public OrderAggregate(ClientId clientId, DateTime createdAt, List<OrderProduct> products, CouponId usedCoupon, Price totalPrice)
+		public OrderAggregate(OrderId id, ClientId clientId, DateTime createdAt)
 		{
-			Id = Guid.NewGuid();
-			this.clientId = clientId;
-			this.createdAt = createdAt;
-			validTo = createdAt.AddMinutes(5);
-			this.products = products;
-			this.usedCoupon = usedCoupon;
-			TotalPrice = totalPrice;
-
+			Id = id;
+			ClientId = clientId;
+			ValidTo = createdAt.AddMinutes(5);
 		}
 
-		public Price TotalPrice { get; }
-
-		public DateTime ValidTo => validTo;
-
-		public ClientId ClientId => clientId;
-
-		public IEnumerable<OrderProduct> Products => products;
-
-		public CouponId UsedCoupon => usedCoupon;
-
-		public DateTime CreatedAt => createdAt;
+		public static OrderAggregate Create(ClientId clientId, DateTime createdAt) 
+			=> new(Guid.NewGuid(), clientId, createdAt);
 
 		public bool IsPlaced { get; private set; }
 
@@ -53,7 +35,7 @@ namespace FoodOrdering.Modules.Basket.Domain.Models.Order
 
 			IsPlaced = true;
 		}
-	}
 
-	public record OrderProduct(ProductId ProductId, Quantity Quantity);
+		protected OrderAggregate() { }
+	}
 }

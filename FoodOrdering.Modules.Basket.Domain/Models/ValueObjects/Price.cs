@@ -2,41 +2,46 @@
 
 namespace FoodOrdering.Modules.Basket.Domain.ValueObjects
 {
-	public record Price : IValueObject
+	public class Price : IValueObject
 	{
-		private readonly decimal value;
+		public decimal Value { get; private set; }
 
 		public Price(decimal value)
 		{
-			if (value < 0)
+			if (Value < 0)
 			{
 				throw new AppException("Price cannot be below 0");
 			}
 
-			this.value = value;
+			Value = value;
 		}
 
-		public static Price Zero => new(0);
+		// Serialization requirement
+		protected Price()
+		{ }
+
+		public static Price Zero => new((decimal)0);
 
 		public Price LoweredBy(Price price)
 		{
-			if (value - price.value <= 0)
+			if (Value - price.Value <= 0)
 			{
 				return Zero;
 			}
 			else
 			{
-				return new Price(value - price.value);
+				return new Price(Value - price.Value);
 			}
 		}
 
-		public decimal ToDecimal() => value;
+		public decimal ToDecimal() => Value;
 
 		public static implicit operator Price(decimal value) => new(value);
+		public static implicit operator decimal(Price price) => price.Value;
 
-		public static Price operator +(Price lhs, Price rhs) => new(lhs.value + rhs.value);
+		public static Price operator +(Price lhs, Price rhs) => new(lhs.Value + rhs.Value);
 
 		public static Price operator -(Price lhs, Price rhs) => lhs.LoweredBy(rhs);
-		public static Price operator *(Price lhs, Quantity rhs) => new(lhs.value * rhs.ToInt());
+		public static Price operator *(Price lhs, Quantity rhs) => new(lhs.Value * rhs.ToInt());
 	}
 }

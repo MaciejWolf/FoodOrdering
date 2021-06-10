@@ -25,9 +25,9 @@ namespace FoodOrdering.Modules.Basket.Application.Handlers.Commands
 		public async Task<Unit> Handle(UpdateProductInBasketCommand request, CancellationToken cancellationToken)
 		{
 			var basket = basketsRepository.GetById(request.BasketId) ?? throw new AppException("Basket not found");
-			var product = productsRepository.GetById(request.ProductId) ?? throw new AppException("Product not found");
+			var _ = productsRepository.GetById(request.ProductId) ?? throw new AppException("Product not found");
 
-			basket.UpdateProduct(new Domain.Basket.Product(product.Id, product.Price, request.Quantity));
+			basket.UpdateProduct(request.ProductId, request.Quantity);
 
 			basketsRepository.Update(basket);
 

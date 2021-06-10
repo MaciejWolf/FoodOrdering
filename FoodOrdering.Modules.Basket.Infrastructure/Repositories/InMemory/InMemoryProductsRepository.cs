@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FoodOrdering.Common;
-using FoodOrdering.Modules.Basket.Domain.Models.Product;
+using FoodOrdering.Modules.Basket.Domain.Models;
 using FoodOrdering.Modules.Basket.Domain.Repositories;
 using FoodOrdering.Modules.Basket.Domain.ValueObjects;
 
@@ -12,14 +12,14 @@ namespace FoodOrdering.Modules.Basket.Infrastructure.Repositories.InMemory
 {
 	public class InMemoryProductsRepository : IProductsRepository
 	{
-		private readonly List<ProductAggregate> products = new();
+		private readonly List<Product> products = new();
 
-		public ProductAggregate GetById(ProductId productId)
+		public Product GetById(ProductId productId)
 		{
 			return products.SingleOrDefault(p => p.Id == productId);
 		}
 
-		public void Save(ProductAggregate product)
+		public void Save(Product product)
 		{
 			if (products.Any(p => p.Id == product.Id))
 			{

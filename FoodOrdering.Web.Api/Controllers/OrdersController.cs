@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FoodOrdering.Modules.Auth.Contracts;
 using FoodOrdering.Modules.Auth.Services;
 using FoodOrdering.Modules.Basket.Contracts.Commands;
 using FoodOrdering.Modules.Basket.Contracts.Queries;

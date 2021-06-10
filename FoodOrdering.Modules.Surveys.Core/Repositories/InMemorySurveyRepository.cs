@@ -29,5 +29,18 @@ namespace FoodOrdering.Modules.Surveys.Repositories
 
 			surveys.Add(survey);
 		}
+
+		public void Update(Survey survey)
+		{
+			var existing = surveys.Single(s => s.Id == survey.Id);
+			surveys.Remove(existing);
+			surveys.Add(survey);
+		}
+
+		public void Update(Guid id, Action<Survey> updateOperation)
+		{
+			var survey = surveys.Single(s => s.Id == id);
+			updateOperation(survey);
+		}
 	}
 }

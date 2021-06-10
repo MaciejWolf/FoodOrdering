@@ -12,6 +12,6 @@ namespace FoodOrdering.Modules.Catalog.Repositories
 		Task AddAsync(Meal meal);
 		Task<Meal> GetById(Guid id);
 		Task<Meal[]> GetAll();
-		void Update(Meal meal);
+		void Update(Guid mealId, Action<Meal> updateOperation);
 	}
 }

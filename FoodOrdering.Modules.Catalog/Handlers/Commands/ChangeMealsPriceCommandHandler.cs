@@ -24,15 +24,14 @@ namespace FoodOrdering.Modules.Catalog.Handlers.Commands
 
 		public async Task<Unit> Handle(ChangeMealsPriceCommand request, CancellationToken cancellationToken)
 		{
-			var meal = await repo.GetById(request.MealId);
+			decimal oldPrice = 0;
+			repo.Update(request.MealId, meal =>
+			{
+				oldPrice = meal.Price;
+				meal.Price = request.NewPrice;
+			});
 
-			var oldPrice = meal.Price;
-
-			meal.Price = request.NewPrice;
-
-			repo.Update(meal);
-
-			await publisher.Publish(new MealsPriceChangedEvent(meal.Id, oldPrice, meal.Price));
+			await publisher.Publish(new MealsPriceChangedEvent(request.MealId, oldPrice, request.NewPrice));
 
 			return Unit.Value;
 		}

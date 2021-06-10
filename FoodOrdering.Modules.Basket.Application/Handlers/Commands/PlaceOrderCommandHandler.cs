@@ -17,12 +17,18 @@ namespace FoodOrdering.Modules.Basket.Application.Handlers.Commands
 	public class PlaceOrderCommandHandler : IRequestHandler<PlaceOrderCommand>
 	{
 		private readonly IOrdersRepository ordersRepository;
+		private readonly IOrderDescriptionsRepository orderDescriptionsRepository;
 		private readonly IPublisher publisher;
 		private readonly IClock clock;
 
-		public PlaceOrderCommandHandler(IOrdersRepository ordersRepository, IPublisher publisher, IClock clock)
+		public PlaceOrderCommandHandler(
+			IOrdersRepository ordersRepository,
+			IOrderDescriptionsRepository orderDescriptionsRepository,
+			IPublisher publisher, 
+			IClock clock)
 		{
 			this.ordersRepository = ordersRepository;
+			this.orderDescriptionsRepository = orderDescriptionsRepository;
 			this.publisher = publisher;
 			this.clock = clock;
 		}
@@ -30,17 +36,20 @@ namespace FoodOrdering.Modules.Basket.Application.Handlers.Commands
 		public async Task<Unit> Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
 		{
 			var order = ordersRepository.GetById(request.OrderId) ?? throw new AppException("Order not found");
+			var description = orderDescriptionsRepository.GetById(request.OrderId) ?? throw new AppException("Order not found");
 
 			order.PlaceOrder(clock.Now);
 
-			await publisher.Publish(new OrderPlacedEvent(new OrderDTO(
-				order.Id.ToGuid(),
-				order.ClientId.ToGuid(),
-				order.Products.Select(p => new OrderItemDTO(
+			await publisher.Publish(new OrderPlacedEvent(
+				OrderId: order.Id.ToGuid(),
+				UserId: order.ClientId,
+				new OrderDTO(
+				OrderItems: description.OrderItems.Select(p => new OrderItemDTO(
 					p.ProductId.ToGuid(),
 					p.Quantity.ToInt())),
-				order.UsedCoupon.ToGuid(),
-				order.TotalPrice.ToDecimal())));
+				UsedCoupon: description.UsedCoupon?.ToGuid(),
+				Price: description.Price.ToDecimal(),
+				ValidTo: order.ValidTo)));
 
 			return Unit.Value;
 		}

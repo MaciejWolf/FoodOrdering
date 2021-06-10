@@ -22,7 +22,7 @@ namespace FoodOrdering.Modules.Catalog.Repositories
 
 		public async Task<Meal> GetById(Guid id) => meals.SingleOrDefault(m => m.Id == id);
 
-		public void Update(Meal meal)
+		public void Update(Guid mealId, Action<Meal> updateOperation)
 		{
 			throw new NotImplementedException();
 		}

@@ -1,8 +1,11 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
+using FoodOrdering.Modules.Auth.Contracts;
 using FoodOrdering.Modules.Auth.DbContext;
 using FoodOrdering.Modules.Auth.Entities;
 using FoodOrdering.Modules.Auth.Helpers;
 using FoodOrdering.Modules.Auth.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +17,12 @@ namespace FoodOrdering.Modules.Auth
 {
 	public static class DependencyInjection
 	{
-		public static IServiceCollection AddAuthModule(this IServiceCollection services, IConfiguration config)
+		public static IServiceCollection AddEfCoreAuthModule(this IServiceCollection services, IConfiguration config)
 		{
 			services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<ITokenFactory, TokenFactory>();
             services.AddIdentityServices(config);
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddDbContext<AppIdentityDbContext>(x =>
             {
 				x.UseInMemoryDatabase("InMemoryIdentityDatabase");

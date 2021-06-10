@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FoodOrdering.Modules.Auth\FoodOrdering.Modules.Auth.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Auth.RavenDB\FoodOrdering.Modules.Auth.RavenDB.csproj" />
+    <ProjectReference Include="..\FoodOrdering.Modules.Auth\FoodOrdering.Modules.Auth.EFCore.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Basket.Infrastructure\FoodOrdering.Modules.Basket.Infrastructure.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Basket.Messages\FoodOrdering.Modules.Basket.Contracts.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Catalog\FoodOrdering.Modules.Catalog.csproj" />

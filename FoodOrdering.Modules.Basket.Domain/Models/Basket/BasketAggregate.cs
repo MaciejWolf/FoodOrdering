@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using FoodOrdering.Common;
-using FoodOrdering.Modules.Basket.Domain.Models.Basket.DomainEvents;
+using FoodOrdering.Modules.Basket.Domain.DomainServices;
+using FoodOrdering.Modules.Basket.Domain.Models;
+using FoodOrdering.Modules.Basket.Domain.Models.Basket;
 using FoodOrdering.Modules.Basket.Domain.Models.Order;
 using FoodOrdering.Modules.Basket.Domain.ValueObjects;
 
 namespace FoodOrdering.Modules.Basket.Domain.Basket
 {
+
 	public class BasketAggregate : AggregateRoot<ClientId>
 	{
-		private readonly List<Product> products = new();
-		private Coupon appliedCoupon;
+		private readonly List<BasketItem> basketItems = new();
+		private readonly List<CouponId> availableCoupons = new();
+
+		private CouponId appliedCoupon;
 
 		private readonly IList<IEvent> allEvents = new List<IEvent>();
 		private readonly IList<IEvent> uncommittedEvents = new List<IEvent>();
@@ -25,115 +30,115 @@ namespace FoodOrdering.Modules.Basket.Domain.Basket
 		{
 		}
 
-		public IEnumerable<Product> Products => products;
-		public Price TotalPrice
-		{
-			get
-			{
-				var total = Price.Zero;
-
-				foreach (var price in Products.Select(p => p.TotalPrice))
-				{
-					total += price;
-				}
-
-				if (appliedCoupon is not null)
-					total -= appliedCoupon.Value;
-
-				return total;
-			}
-		}
-
-		public CouponId AppliedCoupon => appliedCoupon?.Id;
-
 		public IEnumerable<IEvent> AllEvents => allEvents;
 		public IEnumerable<IEvent> UncommittedEvents => uncommittedEvents;
 
 		public int InitialVersion { get; private set; }
 		public int Version { get; private set; }
 
-		public void UpdateProduct(Product product)
+		public void UpdateProduct(ProductId productId, Quantity quantity)
 		{
-			var existingProduct = products.SingleOrDefault(WithId(product.Id));
+			var existingItem = basketItems.SingleOrDefault(bi => bi.Id == productId);
 
-			if (existingProduct is null)
+			if (existingItem is not null)
 			{
-				AddToBasket(product);
-			}
-			else
-			{
-				if (product.Quantity == Quantity.Zero)
+				if (quantity == 0)
 				{
-					RemoveFromBasket(product.Id);
+					RemoveBasketItem(productId);
 				}
 				else
 				{
-					products.Remove(existingProduct);
-					products.Add(product);
+					UpdateQuantity(productId, quantity);
 				}
 			}
+			else
+			{
+				AddBasketItem(productId, quantity);
+			}
+		}
+
+		private void RemoveBasketItem(ProductId productId)
+		{
+			AddEvent(new ProductRemovedFromBasketEvent(Id, productId));
+		}
+
+		private void UpdateQuantity(ProductId productId, Quantity quantity)
+		{
+			AddEvent(new ProductsQuantityChanged(Id, productId, quantity));
+		}
+
+		private void AddBasketItem(ProductId productId, Quantity quantity)
+		{
+			AddEvent(new ProductAddedEvent(Id, productId, quantity));
 		}
 
 		public void Reset()
 		{
+			if (appliedCoupon != null)
+				AddEvent(new CouponDisabled(Id, appliedCoupon));
+
 			AddEvent(new BasketResetEvent(Id));
 		}
 
-		private void AddToBasket(Product product)
+
+		public void ApplyCoupon(CouponId couponId)
 		{
-			var oldPrice = TotalPrice;
-			products.Add(product);
-
-			if (oldPrice != TotalPrice)
+			if (availableCoupons.Contains(couponId))
 			{
-
+				AddEvent(new CouponAppliedEvent(Id, couponId));
 			}
-		}
-
-		private void RemoveFromBasket(ProductId productId)
-		{
-			var oldPrice = TotalPrice;
-
-			var product = products.SingleOrDefault(WithId(productId));
-
-			if (product is not null)
+			else
 			{
-				products.Remove(product);
-			}
-
-			if (oldPrice != TotalPrice)
-			{
-
-			}
-		}
-
-		public void ApplyCoupon(Coupon coupon)
-		{
-			var oldPrice = TotalPrice;
-
-			appliedCoupon = coupon;
-
-			if (oldPrice != TotalPrice)
-			{
-
+				throw new AppException();
 			}
 		}
 
 		public void RemoveAppliedCoupon()
 		{
-			var oldPrice = TotalPrice;
-
-			appliedCoupon = null;
-
-			if (oldPrice != TotalPrice)
+			if (appliedCoupon is not null)
 			{
-
+				AddEvent(new AppliedCouponRemovedEvent(Id, appliedCoupon));
 			}
 		}
 
-		public OrderAggregate CreateOrder(DateTime creationTime)
+		public void GrantCoupon(CouponId couponId)
 		{
-			return new OrderAggregate(Id, creationTime, products.Select(p => new OrderProduct(p.Id, p.Quantity)).ToList(), AppliedCoupon, TotalPrice);
+			if (!availableCoupons.Contains(couponId))
+			{
+				AddEvent(new CouponGranted(Id, couponId));
+			}
+		}
+
+		public void DisableCoupon(CouponId couponId)
+		{
+			if (availableCoupons.Contains(couponId))
+			{
+				AddEvent(new CouponDisabled(Id, couponId));
+			}
+
+			if (appliedCoupon == couponId)
+			{
+				RemoveAppliedCoupon();
+			}
+		}
+
+		public (OrderAggregate, OrderDescription) CreateOrder(DateTime creationTime, Func<ProductId, Product> productProvider, Func<CouponId, Coupon> couponProvider)
+		{
+			if (basketItems.Count == 0)
+			{
+				throw new AppException("Cannot create order from empty basket");
+			}
+
+			var orderProducts = basketItems.Select(bi => new OrderItem(bi.Id, bi.Quantity));
+
+			var totalPrice = PriceCalculator.Calculate(
+				basketItems.Select(bi => (productProvider(bi.Id), bi.Quantity)), 
+				appliedCoupon != null ? couponProvider(appliedCoupon) : null);
+
+			var order = OrderAggregate.Create(Id, creationTime);
+			var description = new OrderDescription(order.Id, orderProducts, appliedCoupon, totalPrice);
+
+			return (order, description);
 		}
 
 		private void AddEvent(IEvent evnt)
@@ -144,21 +149,48 @@ namespace FoodOrdering.Modules.Basket.Domain.Basket
 
 		public void ApplyEvent(IEvent evnt)
 		{
-			switch (evnt)
-			{
-				case BasketCreatedEvent basketCreated:
-					Apply(basketCreated);
-					break;
-				case BasketResetEvent basketReset:
-					Apply(basketReset);
-					break;
-				default:
-					throw new InvalidOperationException("Unsupported Event.");
-			}
+			Apply((dynamic)evnt);
+
+			//switch (evnt)
+			//{
+			//	case BasketCreatedEvent basketCreated:
+			//		Apply(basketCreated);
+			//		break;
+			//	case BasketResetEvent basketReset:
+			//		Apply(basketReset);
+			//		break;
+			//	case ProductAddedEvent productAdded:
+			//		Apply(productAdded);
+			//		break;
+			//	case ProductRemovedFromBasketEvent productRemoved:
+			//		Apply(productRemoved);
+			//		break;
+			//	case ProductsQuantityChanged quantityChanged:
+			//		Apply(quantityChanged);
+			//		break;
+			//	case CouponAppliedEvent couponApplied:
+			//		Apply(couponApplied);
+			//		break;
+			//	case AppliedCouponRemovedEvent appliedCouponRemoved:
+			//		Apply(appliedCouponRemoved);
+			//		break;
+			//	default:
+			//		throw new InvalidOperationException("Unsupported Event.");
+			//}
 
 			Version++;
 			allEvents.Add(evnt);
-		} 
+		}
+
+		private void Apply(AppliedCouponRemovedEvent _)
+		{
+			appliedCoupon = null;
+		}
+
+		private void Apply(CouponAppliedEvent evnt)
+		{
+			appliedCoupon = evnt.CouponId;
+		}
 
 		private void Apply(BasketCreatedEvent evnt)
 		{
@@ -167,17 +199,35 @@ namespace FoodOrdering.Modules.Basket.Domain.Basket
 
 		private void Apply(BasketResetEvent _)
 		{
-			products.Clear();
+			basketItems.Clear();
 			appliedCoupon = null;
 		}
 
 		private void Apply(ProductAddedEvent evnt)
 		{
+			basketItems.Add(new BasketItem(evnt.ProductId, evnt.Quantity));
 		}
 
-		private void Apply(ProductRemovedEvent evnt)
+		private void Apply(ProductRemovedFromBasketEvent evnt)
 		{
+			var item = basketItems.Single(bi => bi.Id == evnt.ProductId);
+			basketItems.Remove(item);
+		}
 
+		private void Apply(ProductsQuantityChanged evnt)
+		{
+			var item = basketItems.Single(bi => bi.Id == evnt.ProductId);
+			item.UpdateQuantity(evnt.Quantity);
+		}
+
+		private void Apply(CouponGranted evnt)
+		{
+			availableCoupons.Add(evnt.CouponId);
+		}
+
+		private void Apply(CouponDisabled evnt)
+		{
+			availableCoupons.Remove(evnt.CouponId);
 		}
 
 		public static BasketAggregate FromEvents(IEnumerable<IEvent> events)
@@ -194,7 +244,9 @@ namespace FoodOrdering.Modules.Basket.Domain.Basket
 			return basket;
 		}
 
-		private static Func<Product, bool> WithId(ProductId couponId)
-			=> coupon => coupon.Id == couponId;
+		public void ClearUncommittedEvents()
+		{
+			uncommittedEvents.Clear();
+		}
 	}
 }

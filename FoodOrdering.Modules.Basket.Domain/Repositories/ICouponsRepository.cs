@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FoodOrdering.Modules.Basket.Domain.Models.Coupons;
+using FoodOrdering.Modules.Basket.Domain.Models;
 using FoodOrdering.Modules.Basket.Domain.ValueObjects;
 
 namespace FoodOrdering.Modules.Basket.Domain.Repositories
@@ -12,6 +12,6 @@ namespace FoodOrdering.Modules.Basket.Domain.Repositories
 	{
 		void Save(Coupon coupon);
 		Coupon GetById(CouponId couponId);
-		void Update(Coupon coupon);
+		void Update(CouponId couponId, Action<Coupon> updateOperation);
 	}
 }

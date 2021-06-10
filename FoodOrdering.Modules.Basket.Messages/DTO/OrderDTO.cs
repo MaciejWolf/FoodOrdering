@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace FoodOrdering.Modules.Basket.Contracts.DTO
 {
-	public record OrderDTO(Guid Id, Guid ClientId, IEnumerable<OrderItemDTO> OrderItems, Guid UsedCoupon, decimal Price);
+	public record OrderDTO(IEnumerable<OrderItemDTO> OrderItems, Guid? UsedCoupon, decimal Price, DateTime ValidTo);
 }

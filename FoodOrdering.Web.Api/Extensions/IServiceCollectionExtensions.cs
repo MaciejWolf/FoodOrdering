@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FoodOrdering.Modules.Auth;
+﻿using FoodOrdering.Modules.Auth;
+using FoodOrdering.Modules.Auth.RavenDB;
 using FoodOrdering.Modules.Basket.Infrastructure;
 using FoodOrdering.Modules.Catalog;
 using FoodOrdering.Modules.Coupons;
@@ -16,12 +13,15 @@ namespace FoodOrdering.Web.Api.Extensions
 	public static class IServiceCollectionExtensions
 	{
 		public static IServiceCollection AddModules(this IServiceCollection services, IConfiguration configuration)
-			=> services
-				.AddAuthModule(configuration)
-				.AddBasketModule()
-				.AddCatalogModule()
-				.AddOrderProcessingModule()
-				.AddSurveysModule()
-				.AddCouponsModule();
+		{
+			services.AddRavenDBAuthModule(configuration);
+			//services.AddEfCoreAuthModule(configuration);
+			services.AddBasketModule();
+			services.AddCatalogModule();
+			services.AddOrderProcessingModule();
+			services.AddSurveysModule();
+			services.AddCouponsModule();
+			return services;
+		}
 	}
 }

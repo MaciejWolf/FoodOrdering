@@ -5,16 +5,23 @@ namespace FoodOrdering.Modules.Basket.Domain.Models.ValueObjects
 {
 	public record OrderId : IValueObject
 	{
-		private readonly Guid value;
+		public Guid Value { get; private set; }
 
 	public OrderId(Guid value)
 	{
-		this.value = value;
+		Value = value;
 	}
 
-	public static OrderId New => new(Guid.NewGuid());
-	public static implicit operator OrderId(Guid guid) => new(guid);
+		public static OrderId New => new(Guid.NewGuid());
+		public static implicit operator OrderId(Guid guid) => new(guid);
 
-	public Guid ToGuid() => value;
-}
+		public Guid ToGuid() => Value;
+
+		public override string ToString() => Value.ToString();
+
+		protected OrderId()
+		{
+
+		}
+	}
 }

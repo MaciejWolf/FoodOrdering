@@ -26,28 +26,32 @@ namespace FoodOrdering.Modules.Surveys.Handlers.Commands
 
 		public async Task<Unit> Handle(CompleteSurveyCommand request, CancellationToken cancellationToken)
 		{
-			var survey = surveyRepository.GetById(request.SurveyId);
+			SurveyCompletedEvent evnt = null;
 
-			if (survey.Status != SurveyStatus.Open)
+			surveyRepository.Update(request.SurveyId, survey =>
 			{
-				throw new AppException();
-			}
+				if (survey.Status != SurveyStatus.Open)
+				{
+					throw new AppException();
+				}
 
-			var answers = request.Answers.Select(a => new Answer
-			{
-				//SurveyId = survey.Id,
-				QuestionId = a.QuestionId,
-				Content = a.Content
+				var answers = request.Answers.Select(a => new Answer
+				{
+					QuestionId = a.QuestionId,
+					Content = a.Content
+				});
+
+				if (!survey.CanBeCompleted(answers))
+				{
+					throw new AppException();
+				}
+
+				survey.Status = SurveyStatus.Completed;
+
+				evnt = new SurveyCompletedEvent(survey.Id, survey.ClientId);
 			});
 
-			if (!survey.CanBeCompleted(answers))
-			{
-				throw new AppException();
-			}
-
-			survey.Status = SurveyStatus.Completed;
-
-			await publisher.Publish(new SurveyCompletedEvent(survey.Id, survey.ClientId));
+			await publisher.Publish(evnt);
 
 			return Unit.Value;
 		}

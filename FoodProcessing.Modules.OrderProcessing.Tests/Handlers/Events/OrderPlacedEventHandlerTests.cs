@@ -26,21 +26,23 @@ namespace FoodProcessing.Modules.OrderProcessing.Tests.Handlers.Events
 		public async Task PlacedOrderIsPersisted()
 		{
 			// Arrange
-			var evnt = new OrderPlacedEvent(new OrderDTO(
-				Guid.NewGuid(),
-				Guid.NewGuid(),
-				new[]
-				{
-					new OrderItemDTO(Guid.NewGuid(), 3)
-				},
-				Guid.NewGuid(),
-				30));
+			var evnt = new OrderPlacedEvent(
+				OrderId: Guid.NewGuid(),
+				UserId: Guid.NewGuid(),
+				new OrderDTO(	
+					new[]
+					{
+						new OrderItemDTO(Guid.NewGuid(), 3)
+					},
+					Guid.NewGuid(),
+					30,
+					new DateTime(2020, 1, 1)));
 
 			// Act
 			await Publish(evnt);
 
 			// Assert
-			var order = ordersRepository.GetById(evnt.OrderDTO.Id);
+			var order = ordersRepository.GetById(evnt.OrderId);
 			Assert.Equal(OrderStatus.Placed, order.Status);
 		}
 	}

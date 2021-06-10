@@ -11,6 +11,7 @@ namespace FoodOrdering.Modules.OrderProcessing.Repositories
 	{
 		void Save(Order order);
 		Order GetById(Guid orderId);
-		void Update(Order order);
+		IEnumerable<Order> GetAll();
+		void Update(Guid orderId, Action<Order> updateOperation);
 	}
 }

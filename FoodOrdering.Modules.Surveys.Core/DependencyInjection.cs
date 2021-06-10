@@ -14,10 +14,20 @@ namespace FoodOrdering.Modules.Surveys
 	{
 		public static IServiceCollection AddSurveysModule(this IServiceCollection services)
 		{
-			services.AddSingleton<ISurveyRepository, InMemorySurveyRepository>();
+			//services.AddSingleton<ISurveyRepository, InMemorySurveyRepository>();
+			services.AddRavenDbRepository();
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 
 			return services;
+		}
+
+		private static void AddRavenDbRepository(this IServiceCollection services)
+		{
+			var store = SurveysDocumentStore.Create("http://localhost:8080", "FoodOrdering.Db.Surveys");
+			store.EnsureDatabaseExists();
+
+			services.AddSingleton(store);
+			services.AddScoped<ISurveyRepository, SurveyRepository>();
 		}
 	}
 }

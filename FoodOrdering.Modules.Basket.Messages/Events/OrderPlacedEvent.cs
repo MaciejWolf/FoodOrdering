@@ -8,5 +8,5 @@ using MediatR;
 
 namespace FoodOrdering.Modules.Basket.Contracts.Events
 {
-	public record OrderPlacedEvent(OrderDTO OrderDTO) : INotification;
+	public record OrderPlacedEvent(Guid OrderId, Guid UserId, OrderDTO OrderDTO) : INotification;
 }

@@ -53,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Web.Api", "Foo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{4A830F00-1393-49B1-9CD6-AA0BC071BEF2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Auth", "FoodOrdering.Modules.Auth\FoodOrdering.Modules.Auth.csproj", "{B2F4BCE1-AF88-49CD-8BF6-408C37DBE3F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Auth.EFCore", "FoodOrdering.Modules.Auth\FoodOrdering.Modules.Auth.EFCore.csproj", "{B2F4BCE1-AF88-49CD-8BF6-408C37DBE3F4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Auth.Contracts", "FoodOrdering.Modules.Auth.Contracts\FoodOrdering.Modules.Auth.Contracts.csproj", "{BFF60AB7-23BA-443B-8813-F8EBD9362EFE}"
 EndProject
@@ -71,11 +71,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Basket
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D1CD7CB1-7FCE-4223-BE76-6A068A96B07C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Basket.Application.Tests", "FoodOrdering.Modules.Basket.Application.Tests\FoodOrdering.Modules.Basket.Application.Tests.csproj", "{5AA9CDF8-DF15-4D11-922D-465C33DF3629}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Basket.Application.Tests", "FoodOrdering.Modules.Basket.Application.Tests\FoodOrdering.Modules.Basket.Application.Tests.csproj", "{5AA9CDF8-DF15-4D11-922D-465C33DF3629}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodProcessing.Modules.OrderProcessing.Tests", "FoodProcessing.Modules.OrderProcessing.Tests\FoodProcessing.Modules.OrderProcessing.Tests.csproj", "{26D28769-B70E-4801-849C-F6F651DA6C86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodProcessing.Modules.OrderProcessing.Tests", "FoodProcessing.Modules.OrderProcessing.Tests\FoodProcessing.Modules.OrderProcessing.Tests.csproj", "{26D28769-B70E-4801-849C-F6F651DA6C86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Surveys.Tests", "FoodOrdering.Modules.Surveys.Tests\FoodOrdering.Modules.Surveys.Tests.csproj", "{245F087F-769B-4821-8218-0EDDCB05D3D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Surveys.Tests", "FoodOrdering.Modules.Surveys.Tests\FoodOrdering.Modules.Surveys.Tests.csproj", "{245F087F-769B-4821-8218-0EDDCB05D3D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrdering.Modules.Auth.RavenDB", "FoodOrdering.Modules.Auth.RavenDB\FoodOrdering.Modules.Auth.RavenDB.csproj", "{884425A4-E817-4926-A10B-7DB0F9425171}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -187,6 +189,10 @@ Global
 		{245F087F-769B-4821-8218-0EDDCB05D3D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{245F087F-769B-4821-8218-0EDDCB05D3D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{245F087F-769B-4821-8218-0EDDCB05D3D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{884425A4-E817-4926-A10B-7DB0F9425171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{884425A4-E817-4926-A10B-7DB0F9425171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{884425A4-E817-4926-A10B-7DB0F9425171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{884425A4-E817-4926-A10B-7DB0F9425171}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -226,6 +232,7 @@ Global
 		{5AA9CDF8-DF15-4D11-922D-465C33DF3629} = {D1CD7CB1-7FCE-4223-BE76-6A068A96B07C}
 		{26D28769-B70E-4801-849C-F6F651DA6C86} = {2D1F6301-6369-4E8D-80C0-3B6C2A8BB84A}
 		{245F087F-769B-4821-8218-0EDDCB05D3D6} = {F713A158-CAF9-492C-B588-328095E06E9F}
+		{884425A4-E817-4926-A10B-7DB0F9425171} = {4A830F00-1393-49B1-9CD6-AA0BC071BEF2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17AAE88C-D02D-4FE1-8715-7BBC0D3C3613}

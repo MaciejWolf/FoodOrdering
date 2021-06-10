@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FoodOrdering.Modules.Basket.Domain.Basket;
+using FoodOrdering.Modules.Basket.Domain.Models.Basket;
 using FoodOrdering.Modules.Basket.Domain.ValueObjects;
 using Shouldly;
 using Xunit;
@@ -13,73 +14,44 @@ namespace FoodOrdering.Modules.Basket.Domain.Tests
 	public class BasketTests
 	{
 		[Fact]
-		public void WhenBasketIsCreated_TotalPriceIsZero()
+		public void ProductCanBeAddedToBasket()
 		{
-			// Act
+			// Arrange
 			var basket = CreateBasket();
+			var productId = new ProductId(Guid.NewGuid());
+
+			// Act
+			basket.UpdateProduct(productId, 5);
 
 			// Assert
-			basket.TotalPrice.ShouldBe(Price.Zero);
+			var evnt = basket.AllEvents.OfType<ProductAddedEvent>().Single();
+			evnt.ClientId.ShouldBe(basket.Id);
+			evnt.ProductId.ShouldBe(new ProductId(productId));
+			evnt.Quantity.ToInt().ShouldBe(5);
 		}
 
 		[Fact]
-		public void WhenItemIsAdded_TotalPriceChanges()
+		public void ProductQuantityCanBeChanged()
 		{
 			// Arrange
 			var basket = CreateBasket();
+			var productId = new ProductId(Guid.NewGuid());
+			basket.UpdateProduct(productId, 5);
 
 			// Act
-			basket.UpdateProduct(new Product(Guid.NewGuid(), new Price(5)));
+			basket.UpdateProduct(productId, 6);
 
 			// Assert
-			basket.TotalPrice.ShouldBe(new Price(5));
+			var evnt = basket.AllEvents.OfType<ProductsQuantityChanged>().Single();
+			evnt.ClientId.ShouldBe(basket.Id);
+			evnt.ProductId.ShouldBe(new ProductId(productId));
+			evnt.Quantity.ToInt().ShouldBe(6);
 		}
 
-		[Theory]
-		[InlineData(5, 2, 3)]
-		[InlineData(5, 5, 0)]
-		[InlineData(5, 6, 0)]
-		public void TotalPriceIsLoweredByAppliedCouponValue(decimal productPrice, decimal discountValue, decimal expectedTotalPrice)
-		{
-			// Arrange
-			var basket = CreateBasket();
-			basket.UpdateProduct(new Product(Guid.NewGuid(), new Price(productPrice)));
-
-			// Act
-			basket.ApplyCoupon(new Coupon(Guid.NewGuid(), new Price(discountValue)));
-
-			// Assert
-			basket.TotalPrice.ShouldBe(new Price(expectedTotalPrice));
-		}
-
-		[Fact]
-		public void WhenDiscountCouponIsRemoved_TotalPriceIsSumOfProductsPriceValues()
-		{
-			// Arrange
-			var basket = CreateBasket();
-			var product = CreateProduct(price: 5, quantity: 2);
-			var discountCoupon = CreateDiscountCoupon(priceValue: 3);
-
-			basket.UpdateProduct(product);
-			basket.ApplyCoupon(discountCoupon);
-
-			// Act
-			basket.RemoveAppliedCoupon();
-
-			// Assert
-			Assert.Equal(new Price(10), basket.TotalPrice);
-		}
-
-		private static Basket.BasketAggregate CreateBasket()
+		private static BasketAggregate CreateBasket()
 		{
 			var clientId = new ClientId(Guid.NewGuid());
-			return new Basket.BasketAggregate(clientId);
+			return new BasketAggregate(clientId);
 		}
-
-		private static Product CreateProduct(decimal price, int quantity = 1)
-			=> new(Guid.NewGuid(), new Price(price), new Quantity(quantity));
-
-		private static Coupon CreateDiscountCoupon(decimal priceValue)
-			=> new(Guid.NewGuid(), new Price(priceValue));
 	}
 }

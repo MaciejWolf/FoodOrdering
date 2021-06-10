@@ -13,20 +13,19 @@ namespace FoodOrdering.Modules.Basket.Application.Handlers.Commands
 	public class ApplyCouponCommandHandler : IRequestHandler<ApplyCouponCommand>
 	{
 		private readonly IBasketsRepository basketsRepository;
-		private readonly ICouponsRepository couponsRepository;
 
 		public ApplyCouponCommandHandler(IBasketsRepository basketsRepository, ICouponsRepository couponsRepository)
 		{
 			this.basketsRepository = basketsRepository;
-			this.couponsRepository = couponsRepository;
 		}
 
 		public async Task<Unit> Handle(ApplyCouponCommand request, CancellationToken cancellationToken)
 		{
-			var coupon = couponsRepository.GetById(request.CouponId);
 			var basket = basketsRepository.GetById(request.ClientId);
 
-			basket.ApplyCoupon(new Domain.Basket.Coupon(coupon.Id, coupon.Value));
+			basket.ApplyCoupon(request.CouponId);
+
+			basketsRepository.Update(basket);
 
 			return Unit.Value;
 		}

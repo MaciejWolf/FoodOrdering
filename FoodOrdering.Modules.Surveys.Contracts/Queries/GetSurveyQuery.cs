@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FoodOrdering.Modules.Surveys.Contracts.DTO;
 using MediatR;
 
 namespace FoodOrdering.Modules.Surveys.Contracts.Queries
 {
-	class GetSurveyQuery : IRequest
-	{
-	}
+	public record GetSurveyQuery(Guid SurveyId) : IRequest<SurveyDTO>;
 }

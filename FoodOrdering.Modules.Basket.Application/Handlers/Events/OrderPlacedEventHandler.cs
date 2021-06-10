@@ -23,8 +23,11 @@ namespace FoodOrdering.Modules.Basket.Application.Handlers.Events
 
 		public async Task Handle(OrderPlacedEvent evnt, CancellationToken cancellationToken)
 		{
-			MarkCouponUsed(evnt.OrderDTO.UsedCoupon);
-			ClearBasket(evnt.OrderDTO.ClientId);
+			if (evnt.OrderDTO.UsedCoupon.HasValue)
+			{
+				MarkCouponUsed(evnt.OrderDTO.UsedCoupon.Value);
+			}
+			ClearBasket(evnt.UserId);
 		}
 
 		private void ClearBasket(Guid clientId)
@@ -36,10 +39,10 @@ namespace FoodOrdering.Modules.Basket.Application.Handlers.Events
 
 		private void MarkCouponUsed(Guid couponId)
 		{
-			var coupon = couponsRepository.GetById(couponId);
-			coupon.IsUsed = true;
-
-			couponsRepository.Update(coupon);
+			couponsRepository.Update(couponId, coupon =>
+			{
+				coupon.IsUsed = true;
+			});
 		}
 	}
 }

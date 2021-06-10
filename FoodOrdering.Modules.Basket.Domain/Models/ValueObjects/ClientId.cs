@@ -5,15 +5,20 @@ namespace FoodOrdering.Modules.Basket.Domain.ValueObjects
 {
 	public record ClientId : IValueObject
 	{
-		private readonly Guid value;
+		public Guid Value { get; private set; }
 
 		public ClientId(Guid value)
 		{
-			this.value = value;
+			Value = value;
 		}
 
-		public Guid ToGuid() => value;
+		public Guid ToGuid() => Value;
+
+		public override string ToString() => Value.ToString();
 
 		public static implicit operator ClientId(Guid guid) => new(guid);
+		public static implicit operator Guid(ClientId clientId) => clientId.Value;
+
+		protected ClientId() { }
 	}
 }

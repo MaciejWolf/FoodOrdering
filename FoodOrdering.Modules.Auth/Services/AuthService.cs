@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FoodOrdering.Common;
 using FoodOrdering.Common.Functional;
+using FoodOrdering.Modules.Auth.Contracts;
 using FoodOrdering.Modules.Auth.Contracts.DTO;
 using FoodOrdering.Modules.Auth.Contracts.Events;
 using FoodOrdering.Modules.Auth.Entities;
@@ -69,7 +71,31 @@ namespace FoodOrdering.Modules.Auth.Services
 				Token: tokenFactory.CreateToken(user));
 		}
 
-		public async Task<Option<Error>> Register(string displayName, string email, string password)
+		public async Task Register(string displayName, string email, string password)
+		{
+			if (await FindUserByEmail(email) is not null)
+			{
+				throw new AppException("Email in use");
+			}
+
+			var user = new AppUser
+			{
+				DisplayName = displayName,
+				Email = email,
+				UserName = email
+			};
+
+			var result = await userManager.CreateAsync(user, password);
+
+			if (!result.Succeeded)
+			{
+				throw new AppException("Creating user failed");
+			}
+
+			await publisher.Publish(new UserRegisteredEvent(user.Id));
+		}
+
+		public async Task<Option<Error>> RegisterOrError(string displayName, string email, string password)
 		{
 			if (await FindUserByEmail(email) is not null)
 			{

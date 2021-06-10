@@ -4,33 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using FoodOrdering.Common;
 using FoodOrdering.Modules.Basket.Contracts.DTO;
 using FoodOrdering.Modules.Basket.Contracts.Queries;
-using FoodOrdering.Modules.Basket.Domain.Repositories;
 using MediatR;
 
 namespace FoodOrdering.Modules.Basket.Application.Handlers.Queries
 {
 	public class GetBasketQueryHandler : IRequestHandler<GetBasketQuery, BasketDTO>
 	{
-		private readonly IBasketsRepository basketsRepository;
+		private readonly IViewModelsRepository repo;
 
-		public GetBasketQueryHandler(IBasketsRepository basketsRepository)
+		public GetBasketQueryHandler(IViewModelsRepository repo)
 		{
-			this.basketsRepository = basketsRepository;
+			this.repo = repo;
 		}
 
-		public async Task<BasketDTO> Handle(GetBasketQuery request, CancellationToken cancellationToken)
+		public async Task<BasketDTO> Handle(GetBasketQuery query, CancellationToken cancellationToken)
 		{
-			var basket = basketsRepository.GetById(request.BasketId) ?? throw new AppException("Basket not found");
+			var vm = repo.Get(query.BasketId);
 
-			var dto = new BasketDTO(
-				BasketItems: basket.Products.Select(p => new BasketItemDTO(p.Id.ToGuid(), p.Quantity.ToInt())),
-				TotalPrice: basket.TotalPrice.ToDecimal(),
-				AppliedCoupon: basket.AppliedCoupon?.ToGuid());
-
-			return dto;
+			return new BasketDTO(vm.BasketItems.Select(bi => new BasketItemDTO(bi.ProductId, bi.Quantity)), vm.Price, vm.AppliedCoupon);
 		}
 	}
 }

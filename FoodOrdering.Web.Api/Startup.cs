@@ -23,6 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Raven.Client.Documents;
 
 namespace FoodOrdering.Web.Api
 {
@@ -67,6 +68,9 @@ namespace FoodOrdering.Web.Api
 
 			app.UseAuthentication();
 			app.UseAuthorization();
+
+			var docStore = app.ApplicationServices.GetRequiredService<IDocumentStore>();
+			docStore.EnsureExists();
 
 			app.UseEndpoints(endpoints =>
 			{

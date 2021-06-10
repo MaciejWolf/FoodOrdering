@@ -14,10 +14,26 @@ namespace FoodOrdering.Modules.Catalog
 	{
 		public static IServiceCollection AddCatalogModule(this IServiceCollection services)
 		{
-			services.AddSingleton<IMealsRepository, InMemoryMealsRepository>();
+			services.AddRavenDbRepository();
+			//services.AddInMemoryRepository();
+
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 
 			return services;
+		}
+
+		private static void AddRavenDbRepository(this IServiceCollection services)
+		{
+			var store = MealsDocumentStore.Create("http://localhost:8080", "FoodOrdering.Db.Catalog");
+			store.EnsureDatabaseExists();
+
+			services.AddSingleton(store);
+			services.AddScoped<IMealsRepository, MealsRepository>();
+		}
+
+		private static void AddInMemoryRepository(this IServiceCollection services)
+		{
+			services.AddSingleton<IMealsRepository, InMemoryMealsRepository>();
 		}
 	}
 }

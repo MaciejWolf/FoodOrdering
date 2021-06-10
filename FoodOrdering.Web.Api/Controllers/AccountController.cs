@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
+using FoodOrdering.Modules.Auth.Contracts;
 using FoodOrdering.Modules.Auth.Contracts.DTO;
 using FoodOrdering.Modules.Auth.Services;
 using FoodOrdering.Web.Api.Requests.Account;
@@ -42,7 +43,7 @@ namespace FoodOrdering.Web.Api.Controllers
 		[HttpPost("register")]
 		public async Task<IActionResult> Register(RegisterRequest request)
 		{
-			var error = await authService.Register(request.DisplayName, request.Email, request.Password);
+			var error = await authService.RegisterOrError(request.DisplayName, request.Email, request.Password);
 
 			return error.Match<IActionResult>(
 				e => new BadRequestObjectResult(new { Error = e.Message }), 

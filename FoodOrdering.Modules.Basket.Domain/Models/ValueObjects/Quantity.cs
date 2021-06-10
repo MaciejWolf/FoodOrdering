@@ -9,23 +9,26 @@ namespace FoodOrdering.Modules.Basket.Domain.ValueObjects
 {
 	public record Quantity : IValueObject
 	{
-		private readonly int value;
+		public int Value { get; private set; }
 
 		public Quantity(int value)
 		{
 			if (value < 0)
 				throw new AppException();
 
-			this.value = value;
+			Value = value;
 		}
 
 		public static Quantity Zero => new(0);
 
 		public static implicit operator Quantity(int value) => new(value);
+		public static implicit operator int(Quantity quantity) => quantity.Value;
 
 		public static bool operator <(Quantity lhs, Quantity rhs) => lhs < rhs;
 		public static bool operator >(Quantity lhs, Quantity rhs) => lhs > rhs;
 
-		public int ToInt() => value;
+		public int ToInt() => Value;
+
+		protected Quantity() { }
 	}
 }

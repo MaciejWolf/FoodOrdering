@@ -31,6 +31,7 @@ namespace FoodOrdering.Web.Api.Controllers
 			return Ok(orders);
 		}
 
+		[HttpPost]
 		public async Task<IActionResult> CompleteOrder(Guid orderId)
 		{
 			await sender.Send(new CompleteOrderCommand { OrderId = orderId });

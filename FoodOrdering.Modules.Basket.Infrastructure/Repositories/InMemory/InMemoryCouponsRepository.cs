@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FoodOrdering.Common;
-using FoodOrdering.Modules.Basket.Domain.Models.Coupons;
+using FoodOrdering.Modules.Basket.Domain.Models;
 using FoodOrdering.Modules.Basket.Domain.Repositories;
 using FoodOrdering.Modules.Basket.Domain.ValueObjects;
 
@@ -34,6 +34,16 @@ namespace FoodOrdering.Modules.Basket.Infrastructure.Repositories.InMemory
 			var existingCoupon = GetById(coupon.Id) ?? throw new AppException("Coupon doesn't exists");
 
 			coupons.Remove(existingCoupon);
+			coupons.Add(coupon);
+		}
+
+		public void Update(CouponId couponId, Action<Coupon> updateOperation)
+		{
+			var coupon = GetById(couponId) ?? throw new AppException();
+
+			updateOperation(coupon);
+
+			coupons.Remove(coupon);
 			coupons.Add(coupon);
 		}
 	}

@@ -14,10 +14,20 @@ namespace FoodOrdering.Modules.OrderProcessing
 	{
 		public static IServiceCollection AddOrderProcessingModule(this IServiceCollection services)
 		{
-			services.AddSingleton<IOrdersRepository, InMemoryOrdersRepository>();
+			services.AddRavenDbRepository();
+			//services.AddSingleton<IOrdersRepository, InMemoryOrdersRepository>();
 			services.AddMediatR(Assembly.GetExecutingAssembly());
 
 			return services;
+		}
+
+		private static void AddRavenDbRepository(this IServiceCollection services)
+		{
+			var store = OrderProcessingDocumentStore.Create("http://localhost:8080", "FoodOrdering.Db.OrderProcessing");
+			store.EnsureDatabaseExists();
+
+			services.AddSingleton(store);
+			services.AddScoped<IOrdersRepository, OrdersRepository>();
 		}
 	}
 }

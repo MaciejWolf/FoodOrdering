@@ -26,21 +26,25 @@ namespace FoodOrdering.Modules.OrderProcessing.Handlers.Commands
 
 		public async Task<Unit> Handle(CompleteOrderCommand request, CancellationToken cancellationToken)
 		{
-			var order = ordersRepository.GetById(request.OrderId);
-			if (order.Status != OrderStatus.Placed)
+			OrderCompletedEvent evnt = null;
+
+			ordersRepository.Update(request.OrderId, order =>
 			{
-				throw new AppException();
-			}
+				if (order.Status != OrderStatus.Placed)
+				{
+					throw new AppException();
+				}
 
-			order.Status = OrderStatus.Completed;
+				order.Status = OrderStatus.Completed;
 
-			ordersRepository.Update(order);
-
-			await publisher.Publish(new OrderCompletedEvent
-			{
-				OrderId = order.Id,
-				ClientId = order.ClientId
+				evnt = new OrderCompletedEvent
+				{
+					OrderId = order.Id,
+					ClientId = order.ClientId
+				};
 			});
+
+			await publisher.Publish(evnt);
 
 			return Unit.Value;
 		}

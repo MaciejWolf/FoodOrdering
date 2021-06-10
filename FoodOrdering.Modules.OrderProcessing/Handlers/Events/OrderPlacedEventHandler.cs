@@ -20,14 +20,14 @@ namespace FoodOrdering.Modules.OrderProcessing.Handlers.Events
 			this.ordersRepository = ordersRepository;
 		}
 
-		public async Task Handle(OrderPlacedEvent notification, CancellationToken cancellationToken)
+		public async Task Handle(OrderPlacedEvent evnt, CancellationToken cancellationToken)
 		{
-			var dto = notification.OrderDTO;
+			var dto = evnt.OrderDTO;
 
 			var order = new Order
 			{
-				Id = dto.Id,
-				ClientId = dto.ClientId,
+				Id = evnt.OrderId,
+				ClientId = evnt.UserId,
 				OrderItems = dto.OrderItems.Select(oi => new OrderItem
 				{
 					Id = oi.ProductId,

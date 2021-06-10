@@ -12,6 +12,8 @@ namespace FoodOrdering.Modules.OrderProcessing.Repositories
 	{
 		private readonly List<Order> orders = new();
 
+		public IEnumerable<Order> GetAll() => orders;
+
 		public Order GetById(Guid orderId)
 		{
 			return orders.SingleOrDefault(o => o.Id == orderId);
@@ -31,6 +33,12 @@ namespace FoodOrdering.Modules.OrderProcessing.Repositories
 
 			orders.Remove(existingOrder);
 			orders.Add(order);
+		}
+
+		public void Update(Guid orderId, Action<Order> updateOperation)
+		{
+			var order = GetById(orderId) ?? throw new AppException("Order doesnt exist");
+			updateOperation(order);
 		}
 	}
 }

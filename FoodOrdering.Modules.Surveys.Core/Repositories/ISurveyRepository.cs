@@ -12,5 +12,6 @@ namespace FoodOrdering.Modules.Surveys.Repositories
 		public void Save(Survey survey);
 		Survey GetById(Guid surveyId);
 		IEnumerable<Survey> GetForClient(Guid clientId);
+		void Update(Guid id, Action<Survey> updateOperation);
 	}
 }
