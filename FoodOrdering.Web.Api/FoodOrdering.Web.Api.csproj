@@ -21,7 +21,6 @@
     <ProjectReference Include="..\FoodOrdering.Modules.Coupons.Core\FoodOrdering.Modules.Coupons.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.OrderProcessing\FoodOrdering.Modules.OrderProcessing.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Surveys.Core\FoodOrdering.Modules.Surveys.csproj" />
-    <ProjectReference Include="..\FoodOrdering.Modules.Users.Core\FoodOrdering.Modules.Users.Contracts.csproj" />
     <ProjectReference Include="..\FoodOrdering.Modules.Users\FoodOrdering.Modules.Users.csproj" />
   </ItemGroup>
 

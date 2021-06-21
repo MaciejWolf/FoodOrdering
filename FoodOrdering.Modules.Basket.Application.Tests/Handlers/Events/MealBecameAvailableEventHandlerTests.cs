@@ -27,7 +27,7 @@ namespace FoodOrdering.Modules.Basket.Application.Tests.Handlers.Events
 
 			// Assert
 			var product = productsRepository.GetById(evnt.Id);
-			Assert.Equal(4.99m, product.Price);
+			Assert.Equal<decimal>(4.99m, product.Price);
 		}
 	}
 }

@@ -18,9 +18,6 @@ namespace FoodOrdering.Modules.Basket.Domain.Basket
 
 		private CouponId appliedCoupon;
 
-		private readonly IList<IEvent> allEvents = new List<IEvent>();
-		private readonly IList<IEvent> uncommittedEvents = new List<IEvent>();
-
 		public BasketAggregate(ClientId clientId)
 		{
 			AddEvent(new BasketCreatedEvent(clientId));
@@ -29,12 +26,6 @@ namespace FoodOrdering.Modules.Basket.Domain.Basket
 		private BasketAggregate()
 		{
 		}
-
-		public IEnumerable<IEvent> AllEvents => allEvents;
-		public IEnumerable<IEvent> UncommittedEvents => uncommittedEvents;
-
-		public int InitialVersion { get; private set; }
-		public int Version { get; private set; }
 
 		public void UpdateProduct(ProductId productId, Quantity quantity)
 		{
@@ -141,13 +132,7 @@ namespace FoodOrdering.Modules.Basket.Domain.Basket
 			return (order, description);
 		}
 
-		private void AddEvent(IEvent evnt)
-		{
-			ApplyEvent(evnt);
-			uncommittedEvents.Add(evnt);
-		}
-
-		public void ApplyEvent(IEvent evnt)
+		public override void ApplyEvent(IEvent evnt)
 		{
 			Apply((dynamic)evnt);
 
@@ -242,11 +227,6 @@ namespace FoodOrdering.Modules.Basket.Domain.Basket
 			basket.InitialVersion = basket.Version;
 
 			return basket;
-		}
-
-		public void ClearUncommittedEvents()
-		{
-			uncommittedEvents.Clear();
 		}
 	}
 }

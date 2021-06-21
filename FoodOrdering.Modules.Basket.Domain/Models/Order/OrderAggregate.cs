@@ -36,6 +36,11 @@ namespace FoodOrdering.Modules.Basket.Domain.Models.Order
 			IsPlaced = true;
 		}
 
+		public override void ApplyEvent(IEvent evnt)
+		{
+			throw new NotImplementedException();
+		}
+
 		protected OrderAggregate() { }
 	}
 }
