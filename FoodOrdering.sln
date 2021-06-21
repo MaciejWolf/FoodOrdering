@@ -73,10 +73,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Survey
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Auth.RavenDB", "FoodOrdering.Modules.Auth.RavenDB\FoodOrdering.Modules.Auth.RavenDB.csproj", "{884425A4-E817-4926-A10B-7DB0F9425171}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Users", "FoodOrdering.Modules.Users\FoodOrdering.Modules.Users.csproj", "{053AF73B-AC87-4557-900D-129BFF8DC15A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrdering.Modules.Users.Contracts", "FoodOrdering.Modules.Users.Core\FoodOrdering.Modules.Users.Contracts.csproj", "{E0D69F52-6BB9-4A30-8075-11654A125C0E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,14 +179,6 @@ Global
 		{884425A4-E817-4926-A10B-7DB0F9425171}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{884425A4-E817-4926-A10B-7DB0F9425171}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{884425A4-E817-4926-A10B-7DB0F9425171}.Release|Any CPU.Build.0 = Release|Any CPU
-		{053AF73B-AC87-4557-900D-129BFF8DC15A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{053AF73B-AC87-4557-900D-129BFF8DC15A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{053AF73B-AC87-4557-900D-129BFF8DC15A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{053AF73B-AC87-4557-900D-129BFF8DC15A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0D69F52-6BB9-4A30-8075-11654A125C0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0D69F52-6BB9-4A30-8075-11654A125C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0D69F52-6BB9-4A30-8075-11654A125C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0D69F52-6BB9-4A30-8075-11654A125C0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,8 +216,6 @@ Global
 		{26D28769-B70E-4801-849C-F6F651DA6C86} = {2D1F6301-6369-4E8D-80C0-3B6C2A8BB84A}
 		{245F087F-769B-4821-8218-0EDDCB05D3D6} = {F713A158-CAF9-492C-B588-328095E06E9F}
 		{884425A4-E817-4926-A10B-7DB0F9425171} = {4A830F00-1393-49B1-9CD6-AA0BC071BEF2}
-		{053AF73B-AC87-4557-900D-129BFF8DC15A} = {59EA5574-BAF2-4BC2-91FA-1353C4DE1B4F}
-		{E0D69F52-6BB9-4A30-8075-11654A125C0E} = {59EA5574-BAF2-4BC2-91FA-1353C4DE1B4F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17AAE88C-D02D-4FE1-8715-7BBC0D3C3613}
