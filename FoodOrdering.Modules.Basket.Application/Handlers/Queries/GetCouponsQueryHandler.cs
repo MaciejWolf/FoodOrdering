@@ -13,16 +13,16 @@ namespace FoodOrdering.Modules.Basket.Application.Handlers.Queries
 {
 	public class GetCouponsQueryHandler : IRequestHandler<GetCouponsQuery, IEnumerable<CouponDTO>>
 	{
-		private readonly IViewModelsRepository viewModelsRepo;
+		private readonly IViewModels vms;
 
-		public GetCouponsQueryHandler(IViewModelsRepository viewModelsRepo)
+		public GetCouponsQueryHandler(IViewModels vms)
 		{
-			this.viewModelsRepo = viewModelsRepo;
+			this.vms = vms;
 		}
 
 		public async Task<IEnumerable<CouponDTO>> Handle(GetCouponsQuery query, CancellationToken cancellationToken)
 		{
-			var coupons = viewModelsRepo.GetCouponsForClient(query.ClientId);
+			var coupons = vms.GetCouponsForClient(query.ClientId);
 
 			return coupons.Select(c => new CouponDTO(c.Id, c.Value)).ToArray();
 

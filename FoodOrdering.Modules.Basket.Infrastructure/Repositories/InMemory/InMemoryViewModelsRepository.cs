@@ -8,7 +8,7 @@ using FoodOrdering.Modules.Basket.Application.ViewModels;
 
 namespace FoodOrdering.Modules.Basket.Infrastructure.Repositories.InMemory
 {
-	public class InMemoryViewModelsRepository : IViewModelsRepository
+	public class InMemoryViewModelsRepository : IViewModels
 	{
 		private readonly List<BasketVm> baskets = new();
 		private readonly List<CouponVm> coupons= new();

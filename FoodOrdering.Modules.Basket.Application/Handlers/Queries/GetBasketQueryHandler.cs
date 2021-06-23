@@ -12,16 +12,16 @@ namespace FoodOrdering.Modules.Basket.Application.Handlers.Queries
 {
 	public class GetBasketQueryHandler : IRequestHandler<GetBasketQuery, BasketDTO>
 	{
-		private readonly IViewModelsRepository repo;
+		private readonly IViewModels vms;
 
-		public GetBasketQueryHandler(IViewModelsRepository repo)
+		public GetBasketQueryHandler(IViewModels vms)
 		{
-			this.repo = repo;
+			this.vms = vms;
 		}
 
 		public async Task<BasketDTO> Handle(GetBasketQuery query, CancellationToken cancellationToken)
 		{
-			var vm = repo.Get(query.BasketId);
+			var vm = vms.Get(query.BasketId);
 
 			return new BasketDTO(vm.BasketItems.Select(bi => new BasketItemDTO(bi.ProductId, bi.Quantity)), vm.Price, vm.AppliedCoupon);
 		}

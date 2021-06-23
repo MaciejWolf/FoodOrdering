@@ -27,7 +27,7 @@ namespace FoodOrdering.Modules.Basket.Infrastructure
 			services.AddScoped<IProductsRepository, ProductsRepository>();
 			services.AddScoped<ICouponsRepository, CouponsRepository>();
 			services.AddScoped<IOrdersRepository, OrdersRepository>();
-			services.AddScoped<IViewModelsRepository, ViewModelsRepository>();
+			services.AddScoped<IViewModels, ViewModels>();
 			services.AddScoped<IOrderDescriptionsRepository, OrderDescriptionsRepository>();
 
 			services.AddApplication();

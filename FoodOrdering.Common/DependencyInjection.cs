@@ -21,8 +21,8 @@ namespace FoodOrdering.Common
 		public static IServiceCollection AddCommons(this IServiceCollection services)
 		{
 			services.AddTransient<IClock, UtcClock>();
-			services.AddInMemoryEventStore();
-			//services.AddRavenDbEventStore();
+			//services.AddInMemoryEventStore();
+			services.AddRavenDbEventStore();
 
 			return services;
 		}

@@ -8,11 +8,11 @@ using FoodOrdering.Modules.Basket.Application.ViewModels;
 
 namespace FoodOrdering.Modules.Basket.Infrastructure.Repositories.RavenDb
 {
-	class ViewModelsRepository : IViewModelsRepository
+	class ViewModels : IViewModels
 	{
 		private readonly BasketDocumentStore documentStore;
 
-		public ViewModelsRepository(BasketDocumentStore documentStore)
+		public ViewModels(BasketDocumentStore documentStore)
 		{
 			this.documentStore = documentStore;
 		}

@@ -14,12 +14,12 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 		INotificationHandler<CouponAppliedEvent>,
 		INotificationHandler<AppliedCouponRemovedEvent>
 	{
-		private readonly IViewModelsRepository repo;
+		private readonly IViewModels vms;
 		private readonly ICouponsRepository couponsRepository;
 
-		public CouponsProjection(IViewModelsRepository viewModelsRepo, ICouponsRepository couponsRepository)
+		public CouponsProjection(IViewModels vms, ICouponsRepository couponsRepository)
 		{
-			repo = viewModelsRepo;
+			this.vms = vms;
 			this.couponsRepository = couponsRepository;
 		}
 
@@ -35,17 +35,17 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 				Value = c.Value.ToDecimal()
 			};
 
-			repo.Save(coupon);
+			vms.Save(coupon);
 		}
 
 		public async Task Handle(CouponDisabled evnt, CancellationToken cancellationToken)
 		{
-			repo.RemoveCoupon(evnt.CouponId);
+			vms.RemoveCoupon(evnt.CouponId);
 		}
 
 		public async Task Handle(CouponAppliedEvent evnt, CancellationToken cancellationToken)
 		{
-			repo.Update(evnt.CouponId, vm =>
+			vms.Update(evnt.CouponId, vm =>
 			{
 				vm.IsApplied = true;
 			});
@@ -53,7 +53,7 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 
 		public async Task Handle(AppliedCouponRemovedEvent evnt, CancellationToken cancellationToken)
 		{
-			repo.Update(evnt.CouponId, vm =>
+			vms.Update(evnt.CouponId, vm =>
 			{
 				vm.IsApplied = false;
 			});

@@ -8,7 +8,7 @@ using FoodOrdering.Modules.Basket.Domain.ValueObjects;
 
 namespace FoodOrdering.Modules.Basket.Application
 {
-	public interface IViewModelsRepository
+	public interface IViewModels
 	{
 		void Save(BasketVm basket);
 		BasketVm Get(Guid clientId);

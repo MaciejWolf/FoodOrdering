@@ -24,13 +24,13 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 	{
 		private readonly IProductsRepository productsRepository;
 		private readonly ICouponsRepository couponsRepository;
-		private readonly IViewModelsRepository repo;
+		private readonly IViewModels vms;
 
-		public BasketProjection(IProductsRepository productsRepository, ICouponsRepository couponsRepository, IViewModelsRepository repo)
+		public BasketProjection(IProductsRepository productsRepository, ICouponsRepository couponsRepository, IViewModels vms)
 		{
 			this.productsRepository = productsRepository;
 			this.couponsRepository = couponsRepository;
-			this.repo = repo;
+			this.vms = vms;
 		}
 
 		public async Task Handle(BasketCreatedEvent evnt, CancellationToken cancellationToken)
@@ -43,12 +43,12 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 				AppliedCoupon = null
 			};
 
-			repo.Save(basket);
+			vms.Save(basket);
 		}
 
 		public async Task Handle(ProductAddedEvent evnt, CancellationToken cancellationToken)
 		{
-			repo.UpdateBasket(evnt.ClientId, basket =>
+			vms.UpdateBasket(evnt.ClientId, basket =>
 			{
 				basket.BasketItems.Add(new BasketItem { ProductId = evnt.ProductId, Quantity = evnt.Quantity });
 				UpdatePrice(basket);
@@ -57,7 +57,7 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 
 		public async Task Handle(ProductRemovedFromBasketEvent evnt, CancellationToken cancellationToken)
 		{
-			repo.UpdateBasket(evnt.ClientId, basket =>
+			vms.UpdateBasket(evnt.ClientId, basket =>
 			{
 				var item = basket.BasketItems.Single(bi => bi.ProductId == evnt.ProductId.ToGuid());
 				basket.BasketItems.Remove(item);
@@ -67,7 +67,7 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 
 		public async Task Handle(ProductsQuantityChanged evnt, CancellationToken cancellationToken)
 		{
-			repo.UpdateBasket(evnt.ClientId, basket =>
+			vms.UpdateBasket(evnt.ClientId, basket =>
 			{
 				var item = basket.BasketItems.Single(bi => bi.ProductId == evnt.ProductId.ToGuid());
 				item.Quantity = evnt.Quantity;
@@ -77,7 +77,7 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 
 		public async Task Handle(CouponAppliedEvent evnt, CancellationToken cancellationToken)
 		{
-			repo.UpdateBasket(evnt.ClientId, basket =>
+			vms.UpdateBasket(evnt.ClientId, basket =>
 			{
 				basket.AppliedCoupon = evnt.CouponId;
 				UpdatePrice(basket);
@@ -86,7 +86,7 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 
 		public async Task Handle(AppliedCouponRemovedEvent evnt, CancellationToken cancellationToken)
 		{
-			repo.UpdateBasket(evnt.ClientId, basket =>
+			vms.UpdateBasket(evnt.ClientId, basket =>
 			{
 				basket.AppliedCoupon = null;
 				UpdatePrice(basket);
@@ -95,7 +95,7 @@ namespace FoodOrdering.Modules.Basket.Application.Projections
 
 		public async Task Handle(OrderPlacedEvent evnt, CancellationToken cancellationToken)
 		{
-			repo.UpdateBasket(evnt.UserId, basket =>
+			vms.UpdateBasket(evnt.UserId, basket =>
 			{
 				basket.AppliedCoupon = null;
 				basket.BasketItems.Clear();
