@@ -46,7 +46,7 @@ namespace FoodOrdering.Common.EventStore.RavenDb
 		public IEnumerable<IEvent> GetStream(string streamId)
 		{
 			var events = documentSession
-				.Query<EventWrapper>()
+				.Query<EventMetadata>()
 				.Customize(x => x.WaitForNonStaleResults())
 				.Where(e => e.StreamId == streamId)
 				.OrderBy(e => e.EventNumber)

@@ -5,11 +5,11 @@
 		public string Id { get; set; }
 		public int Version { get; set; }
 
-		public EventWrapper RegisterEvent(IEvent evnt)
+		public EventMetadata RegisterEvent(IEvent evnt)
 		{
 			Version++;
 
-			return new EventWrapper
+			return new EventMetadata
 			{
 				Event = evnt,
 				EventNumber = Version,
@@ -17,7 +17,7 @@
 			};
 		}
 
-		public class EventWrapper
+		public class EventMetadata
 		{
 			public string Id => $"{StreamId}-{EventNumber}";
 			public IEvent Event { get; set; }
